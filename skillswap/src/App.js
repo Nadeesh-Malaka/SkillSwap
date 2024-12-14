@@ -3,6 +3,7 @@ import  React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Landing from './Components/Landing_Page/Landing';
 import ContactUs from './Components/ContactUs_page/ContactUs';
+import FAQ from './Components/FAQ_Page/FAQ';
 
 
 function App() {
@@ -11,7 +12,8 @@ function App() {
       <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing/>}/>
-        <Route path='/contact_us' element={<ContactUs/>}/>
+        <Route path="/contact_us" element={<ContactUs/>}/>
+        <Route path="/faq" element={<FAQ/>}/>
       </Routes>
       
       </BrowserRouter>
