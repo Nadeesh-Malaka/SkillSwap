@@ -63,35 +63,42 @@ SkillSwap is a web application designed to create a collaborative skill-sharing 
 1. Clone the repository:
 
 - ```bash
-
+   git clone https://github.com/<your-repo>/SkillSwap.git
+   cd SkillSwap
   ```
-- git clone https://github.com/<your-repo>/SkillSwap.git
-- cd SkillSwap
+
 
 2. Install dependencies for both client and server:
 
 # In the root directory
 
-- npm install
+- ```bash
+   npm install
+  ```
 
 # In the client directory
 
-- cd client
-- npm install
-
+- ```bash
+   cd client
+   npm install
+  ```
 3. Set up environment variables:
-   - Create a .env file in the root directory.
+
+    - Create a .env file in the root directory.
 
 # Add the following:
 
-- makefile
-- Copy code
-- MONGO_URI=<Your MongoDB URI>
-- JWT_SECRET=<Your JWT Secret Key>
+- ```bash
+   makefile
+   Copy code
+   MONGO_URI=<Your MongoDB URI>
+   JWT_SECRET=<Your JWT Secret Key>
+  ```
 
 4. Run the development server:
 
-- bash
-- Copy code
-- npm run dev
-- Access the application at http://localhost:3000.
+- ```bash
+  Copy code
+  npm run dev
+  Access the application at http://localhost:3000.
+```
