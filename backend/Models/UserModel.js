@@ -20,7 +20,10 @@ const userSchema = new mongoose.Schema({
   contact_Num: { type: String, trim: true },
   uni_Name: { type: String, trim: true },
   profile_pic: { type: String, default: null },
-  bio: { type: String, trim: true },
+  bio: {
+     type: String,
+     default: "I Am A SkillSwap User. I Love To Learn And Teach New Skills.",
+      trim: true },
   sk_Learn: [{ type: String, trim: true }], // Skills user wants to learn
   sk_Teach: [{ type: String, trim: true }]  // Skills user can teach
 });
