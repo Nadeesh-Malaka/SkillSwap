@@ -71,8 +71,6 @@ exports.loginUser = async (req, res) => {
 
 
 
-
-
 // Get All Users
 exports.getAllUsers = async (req, res) => {
   try {
@@ -80,5 +78,61 @@ exports.getAllUsers = async (req, res) => {
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch users' });
+  }
+};
+
+
+
+// Get User by ID
+exports.getUserById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching user' });
+  }
+};
+
+// Update User by ID
+exports.updateUser = async (req, res) => {
+  const { id } = req.params;
+  const { fullName, contact_Num, uni_Name, bio, sk_Learn, sk_Teach } = req.body;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { fullName, contact_Num, uni_Name, bio, sk_Learn, sk_Teach },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'User updated successfully', user: updatedUser });
+  } catch (error) {
+    res.status(500).json({ error: 'Error updating user' });
+  }
+};
+
+// Delete User by ID
+exports.deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedUser = await User.findByIdAndDelete(id);
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error deleting user' });
   }
 };
