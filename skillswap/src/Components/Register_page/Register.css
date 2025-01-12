@@ -229,4 +229,37 @@ body, ul, p, h1, h2, h3, footer {
   a:hover {
     text-decoration: underline;
   }
+
+
+  .error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .skills-input {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .skills-input input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .skills-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .skills-list li {
+    background-color: #f0f0f0;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 5px;
+  }
+  
   
