@@ -4,6 +4,7 @@ import Footer from "../NavFooter/footer";
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';  // Correct import
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -26,16 +27,26 @@ const LoginPage = () => {
       });
 
       if (response.status === 200) {
-        const { token, role } = response.data;
+        const { token } = response.data;
+
+        // Decode the token to get role and other details
+        const decodedToken = jwtDecode(token);
 
         // Store the token in localStorage
         localStorage.setItem('authToken', token);
+        localStorage.setItem('role', decodedToken.role);
+
+        // Debugging output
+        console.log("Decoded Token:", decodedToken); 
+        console.log("Role from Decoded Token:", decodedToken.role);
 
         // Role-based navigation
-        if (role === 'admin') {
+        if (decodedToken.role === 'admin') {
           navigate('/admin/home'); // Admins go to /admin/home
-        } else {
+        } else if (decodedToken.role === 'user') {
           navigate('/home'); // Regular users go to /home
+        } else {
+          navigate('/');;
         }
       }
     } catch (error) {

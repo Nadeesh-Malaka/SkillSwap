@@ -51,18 +51,26 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Generate JWT
+    // Generate JWT with role included
     const token = jwt.sign(
-      { id: user._id, email: user.email,role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: '1h' }
+      {
+        id: user._id, // User ID
+        email: user.email, // User email
+        role: user.role  // Add the user's role to the token payload
+      },
+      process.env.JWT_SECRET, // Secret key for signing the token
+      { expiresIn: '1h' } // Token expiration time
     );
 
-    res.status(200).json({ message: 'Login successful', token,role: user.role });
+    // Send the token back along with the role
+    res.status(200).json({ message: 'Login successful', token, role: user.role });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+
 
 
 // Get All Users
