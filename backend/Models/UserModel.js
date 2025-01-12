@@ -19,7 +19,8 @@ const userSchema = new mongoose.Schema({
   fullName: { type: String, trim: true },
   contact_Num: { type: String, trim: true },
   uni_Name: { type: String, trim: true },
-  profile_pic: { type: String, default: null },
+  profile_pic: { type: String,
+     default: 'images/profile.png'  },
   bio: {
      type: String,
      default: "I Am A SkillSwap User. I Love To Learn And Teach New Skills.",

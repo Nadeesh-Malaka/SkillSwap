@@ -1,22 +1,39 @@
 const User = require('../Models/UserModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const path = require('path');
+const fs = require('fs');
+const multer = require('multer');
+
+// Set up multer for file upload
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dir = path.join(__dirname, '../public/images');
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage });
+
 
 // User Registration
 exports.registerUser = async (req, res) => {
   const { email, password, fullName, contact_Num, uni_Name, sk_Learn, sk_Teach } = req.body;
 
   try {
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create a new user
     const newUser = new User({
       email,
       password: hashedPassword,
@@ -33,6 +50,38 @@ exports.registerUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// Update User Profile Picture
+exports.updateProfilePic = async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+
+    const profilePicPath = `images/${req.file.filename}`;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { profile_pic: profilePicPath },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({
+      message: 'Profile picture updated successfully',
+      user: updatedUser,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 
 // User Login
 exports.loginUser = async (req, res) => {

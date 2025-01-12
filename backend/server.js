@@ -4,7 +4,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
-const userRoutes = require('./Routes/userRoutes'); // Updated path
+const userRoutes = require('./Routes/userRoutes');
 
 const app = express();
 
@@ -12,6 +12,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
+
+// Serve static files (images)
+app.use('/images', express.static('public/images'));
 
 // MongoDB Connection
 const mongoURI = process.env.MONGO_URI || "mongodb://localhost:27017/Skillswap";

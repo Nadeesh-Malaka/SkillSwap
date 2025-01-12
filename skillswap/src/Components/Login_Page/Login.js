@@ -35,10 +35,12 @@ const LoginPage = () => {
         // Store the token in localStorage
         localStorage.setItem('authToken', token);
         localStorage.setItem('role', decodedToken.role);
+        localStorage.setItem('userId', decodedToken.id);
 
         // Debugging output
         console.log("Decoded Token:", decodedToken); 
         console.log("Role from Decoded Token:", decodedToken.role);
+        console.log("User ID from Decoded Token:", decodedToken.id);
 
         // Role-based navigation
         if (decodedToken.role === 'admin') {
