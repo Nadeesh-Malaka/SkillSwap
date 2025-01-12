@@ -1,6 +1,7 @@
 import React from "react";
 import "./style.css";
 
+
 function nav() {
   function toggleMenu() {
     const navLinks = document.querySelector(".nav-links");
@@ -21,13 +22,13 @@ function nav() {
             <div></div>
           </div>
           <ul className="nav-links">
-            <li><a href="#">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="#">About</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">FAQ</a></li>
+            <li><a href="contact_us">Contact Us</a></li>
+            <li><a href="/faq">FAQ</a></li>
             <li><a href="#">Terms of Use</a></li>
-            <li><a href="#" className="highlight">Sign Up</a></li>
-            <li><a href="#" className="highlight">Register</a></li>
+            <li><a href="/login" className="highlight">Sign Up</a></li>
+            <li><a href="/register" className="highlight">Register</a></li>
           </ul>
         </nav>
       </header>
