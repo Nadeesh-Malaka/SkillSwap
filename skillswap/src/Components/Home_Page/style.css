@@ -1,0 +1,265 @@
+/* General Reset */
+body, ul, p, h1, h2, h3, footer {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    line-height: 1.6;
+    background-color: #f9f9f9;
+}
+
+/* Header Styles */
+header {
+    background-color: black;
+    padding: 15px 20px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+.logo span {
+    color: #007BFF;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    font-size: 18px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.nav-links a:hover {
+    background-color: #f5f5f6;
+    color: #007BFF;
+    transform: scale(1.1); 
+}
+
+.nav-links .highlight {
+    background-color: #007BFF;
+    color: white;
+}
+
+/* Hamburger Menu */
+.hamburger-menu {
+    display: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    width: 30px;
+    height: 50px;
+}
+
+.hamburger-menu div {
+    width: 30px;
+    height: 5px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+/* Main Section */
+main {
+    text-align: center;
+    padding: 30px 20px;
+}
+
+main h1, main h2 {
+    color: #333;
+}
+
+main h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+main h2 {
+    margin-top: 40px;
+    font-size: 2rem;
+}
+
+main p {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    color: #666;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.cta {
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.cta {
+    background-color: #007BFF;
+    color: white;
+}
+
+.cta.secondary {
+    background-color: #f5f5f6;
+    color: #007BFF;
+    border: 2px solid #007BFF;
+}
+
+.cta:hover {
+    transform: scale(1.1);
+}
+
+/* Skills Section */
+.search-section {
+    margin: 40px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#searchInput {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#searchBtn {
+    padding: 10px 15px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.skills-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.profile-card {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    width: 250px; /* Square size */
+    height: 140px; /* Square size */
+    object-fit: cover; /* Ensures image keeps its aspect ratio */
+    border-radius: 5px; /* Slight rounded corners for the image */
+    margin-bottom: 15px; /* Space between image and text */
+}
+
+.profile-name {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.profile-skill {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.profile-description {
+    font-size: 1rem;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.request-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+.request-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+footer a {
+    text-decoration: none;
+    color: #007BFF;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: black;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        padding: 15px 0;
+    }
+
+    .nav-links.show {
+        display: flex;
+    }
+
+    .nav-links a {
+        text-align: center;
+        padding: 10px;
+    }
+
+    .hamburger-menu {
+        display: flex;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+    }
+
+    .skills-section {
+        flex-direction: column;
+    }
+}

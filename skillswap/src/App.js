@@ -6,6 +6,7 @@ import ContactUs from './Components/ContactUs_page/ContactUs';
 import FAQ from './Components/FAQ_Page/FAQ';
 import Register from './Components/Register_page/Register';
 import Login from './Components/Login_Page/Login';
+import Home from './Components/Home_Page/Home';
 
 
 
@@ -15,6 +16,7 @@ function App() {
       <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing/>}/>
+        <Route path='/home' element={<Home/>}/>
         <Route path="/contact_us" element={<ContactUs/>}/>
         <Route path="/faq" element={<FAQ/>}/>
         <Route path='/register' element={<Register/>}/>
