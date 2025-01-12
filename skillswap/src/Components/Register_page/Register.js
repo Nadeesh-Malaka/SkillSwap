@@ -42,6 +42,11 @@ const Register = () => {
       return;
     }
 
+    const handleLoginRedirect = () => {
+      navigate('/login');
+    };
+  
+
     if (!termsAccepted) {
       setErrorMessage('You must agree to the Terms and Conditions.');
       return;
@@ -194,9 +199,14 @@ const Register = () => {
           </div>
 
           <button type="submit" className="register-button">Register</button>
-          <p className="login-link">
-            Already have an account? <a href="/login">Log in</a>
-          </p>
+          <div className="divider">
+            <span>or</span>
+          </div>
+          <button type="button" className="register-button"><a href="/login">Already have an account? Log in</a></button>
+        
+
+
+          
         </form>
       </div>
       <Footer />

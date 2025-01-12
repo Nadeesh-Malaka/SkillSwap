@@ -2,44 +2,44 @@ import React, { useState } from 'react';
 import Nav from "../NavFooter/nav";
 import Footer from "../NavFooter/footer";
 import './Login.css';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleHamburgerClick = () => {
-    const navLinks = document.querySelector('.nav-links');
-    navLinks.classList.toggle('show');
-  };
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    
-    // Simple login validation
+
     if (!email || !password) {
       alert("Please fill in both fields.");
       return;
     }
 
+    // Simulate login success
     alert("Login successful!");
+  };
+
+  const handleRegisterRedirect = () => {
+    navigate('/register');
   };
 
   return (
     <div>
-      <Nav/>
-      
-      {/* Login Page Content */}
+      <Nav />
       <div className="login-container">
         <form className="login-form" onSubmit={handleSubmit}>
-          <h2>Login</h2>
+          <h2>Welcome Back</h2>
+          
 
-          {/* Email/Username Field */}
-          <label htmlFor="email">Email or Username</label>
+          {/* Email Field */}
+          <label htmlFor="email">Email</label>
           <input
             type="text"
             id="email"
             name="email"
-            placeholder="Enter your email or username"
+            placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -57,14 +57,28 @@ const LoginPage = () => {
             required
           />
 
-          {/* Forgot Password Link */}
+          {/* Forgot Password */}
           <a href="#" className="forgot-password">Forgot Password?</a>
 
-          {/* Log In Button */}
+          {/* Login Button */}
           <button type="submit" className="login-btn">Log In</button>
+
+          {/* Divider */}
+          <div className="divider">
+            <span>or</span>
+          </div>
+
+          {/* Register Button */}
+          <button
+            type="button"
+            className="register-btn"
+            onClick={handleRegisterRedirect}
+          >
+            Not Registered? Create an Account
+          </button>
         </form>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };
