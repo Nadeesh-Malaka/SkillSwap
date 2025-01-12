@@ -70,6 +70,15 @@
     transition: background-color 0.3s ease;
   }
   
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  
+  
   .login-form .login-btn:hover {
     background-color: #0056b3;
   }

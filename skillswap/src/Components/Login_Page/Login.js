@@ -3,22 +3,48 @@ import Nav from "../NavFooter/nav";
 import Footer from "../NavFooter/footer";
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!email || !password) {
-      alert("Please fill in both fields.");
+      setErrorMessage("Please fill in both fields.");
       return;
     }
 
-    // Simulate login success
-    alert("Login successful!");
+    try {
+      const response = await axios.post('http://localhost:5000/api/users/login', {
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        const { token, role } = response.data;
+
+        // Store the token in localStorage
+        localStorage.setItem('authToken', token);
+
+        // Role-based navigation
+        if (role === 'admin') {
+          navigate('/admin/home'); // Admins go to /admin/home
+        } else {
+          navigate('/home'); // Regular users go to /home
+        }
+      }
+    } catch (error) {
+      if (error.response) {
+        setErrorMessage(error.response.data.message || "Login failed.");
+      } else {
+        setErrorMessage("An error occurred. Please try again later.");
+      }
+    }
   };
 
   const handleRegisterRedirect = () => {
@@ -31,7 +57,9 @@ const LoginPage = () => {
       <div className="login-container">
         <form className="login-form" onSubmit={handleSubmit}>
           <h2>Welcome Back</h2>
-          
+
+          {/* Error Message */}
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
 
           {/* Email Field */}
           <label htmlFor="email">Email</label>
