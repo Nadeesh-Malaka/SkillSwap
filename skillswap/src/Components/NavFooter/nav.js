@@ -57,9 +57,12 @@ function Nav() {
               <>
                 <li><a href="/login" className="highlight">Sign In</a></li>
                 <li><a href="/register" className="highlight">Register</a></li>
+                
               </>
             ) : (
               <>
+               <li><a href="/profile" className="highlight">Profile</a></li>
+
                 {/* Admin Link */}
                 {isAdmin && <li><a href="/admin/home" className="highlight">Admin</a></li>}
                 <li><a href="#" className="highlight" onClick={handleSignOut}>Sign Out</a></li>
