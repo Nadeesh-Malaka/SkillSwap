@@ -9,6 +9,7 @@ import Login from './Components/Login_Page/Login';
 import Home from './Components/Home_Page/Home';
 import AdminHome from './Components/Admin/Home/AdminHome';
 import Profile from './Components/Profile_Page/Profile';
+import SkillListing from './Components/Skills/Skill_Listing';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='/profile' element={<Profile/>} />
+          <Route path='/skill_list' element={<SkillListing/>}/>
 
           {/* Admin route */}
           <Route path='/admin/home' element={<AdminHome />} />
