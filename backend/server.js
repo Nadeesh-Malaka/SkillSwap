@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const userRoutes = require('./Routes/userRoutes');
+const skillRouter = require('./Routes/SkillRouter');
 
 const app = express();
 
@@ -25,6 +26,8 @@ mongoose
 
 // Routes
 app.use('/api/users', userRoutes); // Prefix for user routes
+app.use('/api/skills', skillRouter);
+
 
 // Test route
 app.get('/api/test', (req, res) => {
