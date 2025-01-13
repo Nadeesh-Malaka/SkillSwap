@@ -10,13 +10,13 @@ body, h1, label, input, select, textarea, button {
   }
   
   .skill-listing {
-    max-width: 600px;
-    margin: 20px  auto;
+    max-width: 1200px;
+    margin: 20px auto;
   }
   
   .skill-form {
     background: #f9f9f9;
-    padding: 20px ;
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
@@ -54,8 +54,6 @@ body, h1, label, input, select, textarea, button {
   
   button {
     padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -63,18 +61,62 @@ body, h1, label, input, select, textarea, button {
   }
   
   button:hover {
-    background-color: #0056b3;
+    opacity: 0.9;
   }
   
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .button-group {
-      flex-direction: column;
-      gap: 10px;
-    }
+  .edit-button {
+    background-color: #28a745;
+    color: white;
+  }
   
-    button {
-      width: 100%;
-    }
+  .delete-button {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .skill-list {
+    margin-top: 20px;
+  }
+  
+  .skill-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .skill-table th, .skill-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+  
+  .skill-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .skill-table tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .skill-image {
+    max-width: 100px;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  .status {
+    padding: 5px 10px;
+    border-radius: 3px;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .approved {
+    background-color: #28a745;
+  }
+  
+  .not-approved {
+    background-color: #dc3545;
   }
   
