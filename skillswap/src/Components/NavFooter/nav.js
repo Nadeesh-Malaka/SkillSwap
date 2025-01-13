@@ -61,7 +61,9 @@ function Nav() {
               </>
             ) : (
               <>
+              <li><a href="/skill_list">Skill Listing</a></li>
                <li><a href="/profile" className="highlight">Profile</a></li>
+               
 
                 {/* Admin Link */}
                 {isAdmin && <li><a href="/admin/home" className="highlight">Admin</a></li>}
