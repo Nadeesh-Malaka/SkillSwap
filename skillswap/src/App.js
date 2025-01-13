@@ -28,7 +28,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/profile' element={<Profile/>} />
           <Route path='/skill_list' element={<SkillListing/>}/>
-          <Route path='/chat' element={<Chat/>}/>
+          <Route path="/chat/:skillId/:userId" element={<Chat />} />
 
           {/* Admin route */}
           <Route path='/admin/home' element={<AdminHome />} />

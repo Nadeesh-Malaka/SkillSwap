@@ -75,9 +75,14 @@ function Home() {
   };
 
   const handleOpenChat = (skill) => {
-    alert(`Opening chat for skill: ${skill.title}`);
-    // Redirect to chat page or implement chat functionality
+    if (skill.isAccepted) {
+      // Navigate to the chat page with necessary parameters (e.g., skill ID and user ID)
+      window.location.href = `/chat/${skill._id}/${userId}`;
+    } else {
+      alert("Chat is only available once the skill request is accepted.");
+    }
   };
+  
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value.toLowerCase());

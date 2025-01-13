@@ -1,4 +1,4 @@
-// controllers/SkillReqController.js
+// Controllers/SkillReqController.js
 
 const SkillRequest = require("../Models/SkillReqModel");
 const Skill = require("../Models/SkillModel");
