@@ -81,29 +81,35 @@ function Profile() {
         setError("User ID not found. Please log in.");
         return;
       }
-
-      const formData = new FormData();
-      formData.append("profile_pic", profilePicFile);
-      formData.append("fullName", userData.fullName);
-      formData.append("contact_Num", userData.contact_Num);
-      formData.append("uni_Name", userData.uni_Name);
-      formData.append("bio", userData.bio);
-      formData.append("sk_Learn", JSON.stringify(userData.skillsLearn));
-      formData.append("sk_Teach", JSON.stringify(userData.skillsTeach));
-
-      await axios.put(`http://localhost:5000/api/users/${userId}/profile-pic`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+  
+      // 1. Update user details
+      await axios.put(`http://localhost:5000/api/users/${userId}`, {
+        fullName: userData.fullName,
+        contact_Num: userData.contact_Num,
+        uni_Name: userData.uni_Name,
+        bio: userData.bio,
+        sk_Learn: userData.skillsLearn,
+        sk_Teach: userData.skillsTeach,
       });
-
+  
+      // 2. Update profile picture (if a new file is selected)
+      if (profilePicFile) {
+        const formData = new FormData();
+        formData.append("profile_pic", profilePicFile);
+  
+        await axios.put(`http://localhost:5000/api/users/${userId}/profile-pic`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+      }
+  
       alert("Profile updated successfully!");
       window.location.reload();
     } catch (err) {
+      console.error(err);
       alert("Failed to save changes.");
-      console.log(err);
     }
   };
+  
 
   if (loading) {
     return (
