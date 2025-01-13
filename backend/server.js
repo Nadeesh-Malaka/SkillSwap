@@ -6,6 +6,9 @@ require('dotenv').config();
 
 const userRoutes = require('./Routes/userRoutes');
 const skillRouter = require('./Routes/SkillRouter');
+const skillReqRoutes = require("./Routes/SkillReqRoutes");
+
+
 
 const app = express();
 
@@ -27,7 +30,7 @@ mongoose
 // Routes
 app.use('/api/users', userRoutes); // Prefix for user routes
 app.use('/api/skills', skillRouter);
-
+app.use("/api/requests", skillReqRoutes);
 
 // Test route
 app.get('/api/test', (req, res) => {

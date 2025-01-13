@@ -1,25 +1,91 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./style.css";
-import user1Image from "./resources/web.jpg";
-import user2Image from "./resources/grapic.png";
-import user3Image from "./resources/photo.png";
 import Nav from "../NavFooter/nav";
 import Footer from "../NavFooter/footer";
 
 function Home() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const totalCards = 3;
+  const [skills, setSkills] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
+  const userId = localStorage.getItem("userId");
 
-  const handleRequestClick = (button) => {
-    button.textContent = "Request Sent";
-    button.disabled = true;
-    alert("Open chat page");
+  // Fetch all skills from the backend
+  const fetchSkills = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/skills");
+      const skillsData = response.data.data;
+
+      // Filter skills with isApproved: true
+      const approvedSkills = skillsData.filter((skill) => skill.isApproved);
+
+      // Fetch user details for each approved skill
+      const skillsWithUserDetails = await Promise.all(
+        approvedSkills.map(async (skill) => {
+          const userResponse = await axios.get(`http://localhost:5000/api/users/${skill.userId}`);
+          return { ...skill, userName: userResponse.data.fullName };
+        })
+      );
+
+      // Fetch request status for the logged-in user
+      const requestResponse = await axios.get(`http://localhost:5000/api/requests/${userId}`);
+      const requests = requestResponse.data.requests;
+
+      // Merge request status with skills
+      const updatedSkills = skillsWithUserDetails.map((skill) => {
+        const matchingRequest = requests.find((req) => req.skillId._id === skill._id);
+        if (matchingRequest) {
+          return { ...skill, isRequested: true, isAccepted: matchingRequest.isAccepted };
+        }
+        return skill;
+      });
+
+      setSkills(updatedSkills);
+    } catch (error) {
+      console.error("Error fetching skills:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSkills();
+  }, []);
+
+  const handleRequestClick = async (skill) => {
+    try {
+      // Create a new request
+      const response = await axios.post("http://localhost:5000/api/requests", {
+        skillId: skill._id,
+        userId,
+      });
+
+      // Update the skill to reflect the request status
+      setSkills((prevSkills) =>
+        prevSkills.map((s) =>
+          s._id === skill._id ? { ...s, isRequested: true } : s
+        )
+      );
+
+      alert(response.data.message); // Notify the user
+    } catch (error) {
+      console.error("Error sending request:", error);
+      alert("Failed to send request. Please try again.");
+    }
+  };
+
+  const handleOpenChat = (skill) => {
+    alert(`Opening chat for skill: ${skill.title}`);
+    // Redirect to chat page or implement chat functionality
+  };
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value.toLowerCase());
   };
 
   return (
     <div>
       <Nav />
-
       <main>
         <section id="home">
           <h1>Welcome to SkillSwap</h1>
@@ -33,37 +99,59 @@ function Home() {
         <section id="skills">
           <h2>Explore Skills</h2>
           <div className="search-section">
-            <input type="text" id="searchInput" placeholder="Search categories or skills..." />
-            <button id="searchBtn">Search</button>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search categories or skills..."
+              value={searchTerm}
+              onChange={handleSearch}
+            />
           </div>
-          <div className="skills-section">
-            <div className="profile-card">
-              <img src={user1Image} alt="Profile Picture" className="profile-pic" />
-              <h3 className="profile-name">John Doe</h3>
-              <p className="profile-skill">Skill: Web Development</p>
-              <p className="profile-description">Experienced in building responsive websites using HTML, CSS, and JavaScript.</p>
-              <button className="request-btn" onClick={(e) => handleRequestClick(e.target)}>Send Request</button>
+          {loading ? (
+            <p>Loading skills...</p>
+          ) : (
+            <div className="skills-section">
+              {skills
+                .filter((skill) =>
+                  skill.title.toLowerCase().includes(searchTerm)
+                )
+                .map((skill) => (
+                  <div className="profile-card" key={skill._id}>
+                    <img
+                      src={`http://localhost:5000/${skill.skill_pic}`}
+                      alt={skill.title}
+                      className="profile-pic"
+                    />
+                    <h3 className="profile-name">{skill.userName}</h3>
+                    <p className="profile-skill">Skill: {skill.title}</p>
+                    <p className="profile-description">{skill.description}</p>
+                    {skill.isRequested ? (
+                      skill.isAccepted ? (
+                        <button
+                          className="request-btn3"
+                          onClick={() => handleOpenChat(skill)}
+                        >
+                          Open Chat
+                        </button>
+                      ) : (
+                        <button className="request-btn2" disabled>
+                          Request Sent
+                        </button>
+                      )
+                    ) : (
+                      <button
+                        className="request-btn"
+                        onClick={() => handleRequestClick(skill)}
+                      >
+                        Send Request
+                      </button>
+                    )}
+                  </div>
+                ))}
             </div>
-
-            <div className="profile-card">
-              <img src={user2Image} alt="Profile Picture" className="profile-pic" />
-              <h3 className="profile-name">Emily Smith</h3>
-              <p className="profile-skill">Skill: Graphic Design</p>
-              <p className="profile-description">Specializes in creating stunning visual designs and brand identities.</p>
-              <button className="request-btn" onClick={(e) => handleRequestClick(e.target)}>Send Request</button>
-            </div>
-
-            <div className="profile-card">
-              <img src={user3Image} alt="Profile Picture" className="profile-pic" />
-              <h3 className="profile-name">Michael Brown</h3>
-              <p className="profile-skill">Skill: Photography</p>
-              <p className="profile-description">Professional photographer with expertise in portraits and event photography.</p>
-              <button className="request-btn" onClick={(e) => handleRequestClick(e.target)}>Send Request</button>
-            </div>
-          </div>
+          )}
         </section>
       </main>
-
       <Footer />
     </div>
   );

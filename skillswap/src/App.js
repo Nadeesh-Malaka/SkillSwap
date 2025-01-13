@@ -10,6 +10,7 @@ import Home from './Components/Home_Page/Home';
 import AdminHome from './Components/Admin/Home/AdminHome';
 import Profile from './Components/Profile_Page/Profile';
 import SkillListing from './Components/Skills/Skill_Listing';
+import Chat from './Components/Chat_Page/Chat';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/profile' element={<Profile/>} />
           <Route path='/skill_list' element={<SkillListing/>}/>
+          <Route path='/chat' element={<Chat/>}/>
 
           {/* Admin route */}
           <Route path='/admin/home' element={<AdminHome />} />
