@@ -10,6 +10,7 @@ router.post('/', upload.single('skill_pic'), skillController.createSkill);
 // Update a skill (with optional file upload)
 router.put('/:id', upload.single('skill_pic'), skillController.updateSkill);
 
+router.get("/requested", skillController.getRequestedSkills);
 
 
 // Define skill-related routes
@@ -19,5 +20,8 @@ router.delete('/:id', skillController.deleteSkill);
 router.get('/', skillController.getAllSkills);
 router.get('/:id', skillController.getSkillById);
 router.get('/search/:query', skillController.searchSkills);
+
+// Update isRequest field for a specific skill
+router.put("/update-isRequest/:id", skillController.updateSkillture);
 
 module.exports = router;

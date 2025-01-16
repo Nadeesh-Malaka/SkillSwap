@@ -69,6 +69,11 @@ body, h1, label, input, select, textarea, button {
     color: white;
   }
   
+  .chat-button {
+    background-color: #dfec26;
+    color: white;
+  }
+  
   .delete-button {
     background-color: #dc3545;
     color: white;
@@ -118,5 +123,19 @@ body, h1, label, input, select, textarea, button {
   
   .not-approved {
     background-color: #dc3545;
+  }
+  
+  .skill-table td button {
+    margin: 5px 0;
+  }
+  
+  .skill-table td a {
+    color: #007bff;
+    text-decoration: none;
+    margin-left: 10px;
+  }
+  
+  .skill-table td a:hover {
+    text-decoration: underline;
   }
   

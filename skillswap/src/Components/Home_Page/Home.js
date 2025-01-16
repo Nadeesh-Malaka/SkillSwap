@@ -52,27 +52,36 @@ function Home() {
     fetchSkills();
   }, []);
 
-  const handleRequestClick = async (skill) => {
-    try {
-      // Create a new request
-      const response = await axios.post("http://localhost:5000/api/requests", {
-        skillId: skill._id,
-        userId,
-      });
+const handleRequestClick = async (skill) => {
+  try {
+    const chatURL = `/chat/${skill._id}/${userId}`;
+    
+    // Step 1: Create a new skill request
+    const requestResponse = await axios.post("http://localhost:5000/api/requests", {
+      skillId: skill._id,
+      userId,
+      chatURL,
+    });
 
-      // Update the skill to reflect the request status
-      setSkills((prevSkills) =>
-        prevSkills.map((s) =>
-          s._id === skill._id ? { ...s, isRequested: true } : s
-        )
-      );
+    // Step 2: Update the skill's `isRequest` field to true
+    await axios.put(`http://localhost:5000/api/skills/${skill._id}`, {
+      isRequest: true,
+    });
 
-      alert(response.data.message); // Notify the user
-    } catch (error) {
-      console.error("Error sending request:", error);
-      alert("Failed to send request. Please try again.");
-    }
-  };
+    // Step 3: Update the local state to reflect the changes
+    setSkills((prevSkills) =>
+      prevSkills.map((s) =>
+        s._id === skill._id ? { ...s, isRequested: true } : s
+      )
+    );
+
+    alert(requestResponse.data.message); // Notify the user about the request creation
+  } catch (error) {
+    console.error("Error handling request:", error);
+    alert("Failed to send request. Please try again.");
+  }
+};
+
 
   const handleOpenChat = (skill) => {
     if (skill.isAccepted) {

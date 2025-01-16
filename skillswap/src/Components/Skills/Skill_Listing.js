@@ -14,7 +14,9 @@ function SkillListing() {
   const [skills, setSkills] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingSkill, setEditingSkill] = useState(null);
+  const [requests, setRequests] = useState([]);
 
+  // Fetch skills owned by the logged-in user
   const fetchSkills = async () => {
     const userId = localStorage.getItem("userId");
     if (!userId) {
@@ -27,7 +29,7 @@ function SkillListing() {
       const response = await axios.get(
         `http://localhost:5000/api/skills?userId=${userId}`
       );
-      setSkills(response.data.data.filter((skill) => skill.userId === userId)); // Only user's skills
+      setSkills(response.data.data.filter((skill) => skill.userId === userId));
     } catch (error) {
       console.error("Failed to fetch skills:", error);
       alert("Error fetching skills. Please try again.");
@@ -36,19 +38,52 @@ function SkillListing() {
     }
   };
 
+  // Fetch requests for skills owned by the logged-in user
+  const fetchRequests = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/requests`);
+      setRequests(response.data.requests);
+    } catch (error) {
+      console.error("Error fetching requests:", error);
+    }
+  };
+
   useEffect(() => {
     fetchSkills();
+    fetchRequests();
   }, []);
 
+  // Approve a request and open chat URL
+  const handleApprove = async (requestId) => {
+    try {
+      const response = await axios.patch("http://localhost:5000/api/requests", {
+        requestId,
+        isAccepted: true,
+      });
+      const { chatURL } = response.data.request;
+
+      alert("Request approved!");
+      if (chatURL) {
+        window.open(chatURL, "_blank"); // Open chat URL in a new tab
+      }
+      fetchRequests();
+    } catch (error) {
+      console.error("Error approving request:", error);
+    }
+  };
+
+  // Handle input changes for form
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  // Handle file input change
   const handleFileChange = (e) => {
     setFormData({ ...formData, file: e.target.files[0] });
   };
 
+  // Submit form to add or update a skill
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
@@ -96,6 +131,7 @@ function SkillListing() {
     }
   };
 
+  // Delete a skill
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this skill?")) {
       try {
@@ -109,6 +145,7 @@ function SkillListing() {
     }
   };
 
+  // Edit a skill
   const handleEdit = (skill) => {
     setEditingSkill(skill);
     setFormData({
@@ -117,6 +154,53 @@ function SkillListing() {
       description: skill.description,
       file: null,
     });
+  };
+
+  // Approve the request and update the skill status to accepted
+  const approveRequest = async (skillId) => {
+    try {
+      // Step 1: Fetch skill request details by skillId
+      const skillReqResponse = await axios.get(
+        `http://localhost:5000/api/requests/skill/${skillId}`
+      );
+      const skillRequest = skillReqResponse.data.requests[0]; // Assuming the first request matches
+
+      if (!skillRequest || !skillRequest._id) {
+        alert("Skill request not found!");
+        return;
+      }
+
+      // Step 2: Update the skill request status to isAccepted: true
+      const response = await axios.patch(
+        "http://localhost:5000/api/requests/status",
+        {
+          requestId: skillRequest._id, // Use the fetched request ID
+          isAccepted: true,
+        }
+      );
+
+      if (response.data.success) {
+        // Step 3: Update the UI to reflect the approved request
+        setSkills((prevSkills) =>
+          prevSkills.map((skill) =>
+            skill._id === skillId
+              ? {
+                  ...skill,
+                  isApproved: true,
+                  chatURL: skillRequest.chatURL, // Add chat URL to the skill
+                }
+              : skill
+          )
+        );
+
+        alert("Request approved successfully!");
+      } else {
+        alert("Failed to approve the request.");
+      }
+    } catch (error) {
+      console.error("Error approving request:", error);
+      alert("An error occurred while approving the request.");
+    }
   };
 
   return (
@@ -145,6 +229,7 @@ function SkillListing() {
               onChange={handleInputChange}
               required
             >
+              {/* Options for categories */}
               <option value="technology">Technology & Programming</option>
               <option value="design">Design</option>
               <option value="marketing">Marketing</option>
@@ -205,6 +290,7 @@ function SkillListing() {
                   <th>Description</th>
                   <th>Image</th>
                   <th>Status</th>
+                  <th>Message Req</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -232,6 +318,31 @@ function SkillListing() {
                         {skill.isApproved ? "Approved" : "Not Approved"}
                       </span>
                     </td>
+                    <td>
+                      <div key={skill._id}>
+                        {skill.isRequest ? (
+                          skill.isApproved && skill.chatURL ? (
+                            // Show the "Open Chat" button with a valid chat URL
+                            <a
+                              href={skill.chatURL}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <button  className="chat-button">Open Chat</button>
+                            </a>
+                          ) : (
+                            // Show the "Approve Request" button if not yet approved
+                            <button onClick={() => approveRequest(skill._id)}>
+                              Approve Request
+                            </button>
+                          )
+                        ) : (
+                          // If the skill is not requested
+                          <span>Not requested yet</span>
+                        )}
+                      </div>
+                    </td>
+
                     <td>
                       <button
                         className="edit-button"

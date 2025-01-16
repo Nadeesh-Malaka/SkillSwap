@@ -117,3 +117,40 @@ exports.searchSkills = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+
+//for skill update home page request
+
+exports.updateSkillture = async (req, res) => {
+  const { id } = req.params; // Skill ID from the route parameters
+  const { isRequest } = req.body; // New value for isRequest from the request body
+
+  try {
+    // Update the skill's isRequest field
+    const updatedSkill = await Skill.findByIdAndUpdate(
+      id,
+      { isRequest },
+      { new: true, runValidators: true } // Return the updated document
+    );
+
+    if (!updatedSkill) {
+      return res.status(404).json({ message: "Skill not found" });
+    }
+
+    // Respond with the updated skill data
+    res.status(200).json({ success: true, data: updatedSkill });
+  } catch (error) {
+    // Handle any errors
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getRequestedSkills = async (req, res) => {
+  try {
+    const requestedSkills = await Skill.find({ isRequest: true });
+    res.status(200).json({ success: true, data: requestedSkills });
+  } catch (error) {
+    console.error("Error fetching requested skills:", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

@@ -1,6 +1,7 @@
 const Chat = require("../Models/ChatModel");
 const Skill = require("../Models/SkillModel"); // Import the Skill model
 const mongoose = require("mongoose");
+const User = require("../Models/UserModel"); // Import User model
 
 // Save a new message
 exports.saveMessage = async (req, res) => {
@@ -18,6 +19,12 @@ exports.saveMessage = async (req, res) => {
       return res.status(400).json({ error: "Invalid skillId" });
     }
 
+    // Fetch the sender's name
+    const sender = await User.findById(senderId);
+    if (!sender) {
+      return res.status(404).json({ error: "Sender not found" });
+    }
+
     // Fetch the skill to get the receiverId (skill owner's userId)
     const skill = await Skill.findById(skillId);
     if (!skill) {
@@ -30,6 +37,7 @@ exports.saveMessage = async (req, res) => {
     const chatMessage = new Chat({
       skillId,
       senderId,
+      senderName: sender.fullName, // Dynamically fetch sender's name
       receiverId,
       message,
     });
@@ -42,6 +50,7 @@ exports.saveMessage = async (req, res) => {
     res.status(500).json({ error: "Failed to send message" });
   }
 };
+
 
   
 
