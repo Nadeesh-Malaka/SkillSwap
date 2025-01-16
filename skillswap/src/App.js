@@ -13,6 +13,7 @@ import SkillListing from './Components/Skills/Skill_Listing';
 import Chat from './Components/Chat_Page/Chat';
 import AboutUs from './Components/About_Page/AboutUs';
 import TermsOfUse from './Components/TermsOfUse_Page/TermsOfUse';
+import FeedbackForm from './Components/Home_Page/FeedbackForm';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/chat/:skillId/:userId" element={<Chat />} />
           <Route path='/aboutus' element={<AboutUs/>}/>
           <Route path='/terms' element={<TermsOfUse />} />
+          <Route path='/feedback' element={<FeedbackForm/>} />
 
           {/* Admin route */}
           <Route path='/admin/home' element={<AdminHome />} />
