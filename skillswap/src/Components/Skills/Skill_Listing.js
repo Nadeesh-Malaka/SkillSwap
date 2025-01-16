@@ -3,6 +3,7 @@ import axios from "axios";
 import "./style.css";
 import Nav from "../NavFooter/nav";
 import Footer from "../NavFooter/footer";
+import Skill_Feedback from "./Skill_Feedback";
 
 function SkillListing() {
   const [formData, setFormData] = useState({
@@ -202,7 +203,6 @@ function SkillListing() {
       alert("An error occurred while approving the request.");
     }
   };
-
   return (
     <div>
       <Nav />
@@ -363,6 +363,7 @@ function SkillListing() {
             </table>
           )}
         </section>
+        <Skill_Feedback/>
       </main>
       <Footer />
     </div>

@@ -14,6 +14,7 @@ import Chat from './Components/Chat_Page/Chat';
 import AboutUs from './Components/About_Page/AboutUs';
 import TermsOfUse from './Components/TermsOfUse_Page/TermsOfUse';
 import FeedbackForm from './Components/Home_Page/FeedbackForm';
+import Skill_Feedback from './Components/Skills/Skill_Feedback';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path='/aboutus' element={<AboutUs/>}/>
           <Route path='/terms' element={<TermsOfUse />} />
           <Route path='/feedback' element={<FeedbackForm/>} />
+          <Route path='/showfeedback' element={<Skill_Feedback/>}/>
 
           {/* Admin route */}
           <Route path='/admin/home' element={<AdminHome />} />
