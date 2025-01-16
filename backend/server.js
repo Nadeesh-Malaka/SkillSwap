@@ -12,6 +12,8 @@ const skillRouter = require("./Routes/SkillRouter");
 const skillReqRoutes = require("./Routes/SkillReqRoutes");
 const chatRoutes = require("./Routes/ChatRoutes"); 
 const contactRoutes = require("./Routes/ContactRoutes");
+const feedbackRoutes = require("./Routes/FeedbackRoutes"); 
+
 
 const app = express();
 const server = http.createServer(app); // Create server instance for Socket.io
@@ -38,13 +40,16 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 // Routes
-app.use("/api/users", userRoutes); // Prefix for user routes
+app.use("/api/users", userRoutes); 
 app.use("/api/skills", skillRouter);
 app.use("/api/requests", skillReqRoutes);
 app.use("/api/chat", chatRoutes); 
 app.use("/api/contact", contactRoutes);
+app.use("/api/feedback", feedbackRoutes);
+
 
 // Test route
+
 app.get("/api/test", (req, res) => {
   res.json({ message: "API is working" });
 });

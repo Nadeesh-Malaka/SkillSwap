@@ -1,77 +1,78 @@
 /* Feedback Form Page Styles */
 .feedback-main {
-    background: linear-gradient(to right, #bccfec, #00A3FF);
-    color: #333;
-    padding: 50px 20px;
-    min-height: 100vh;
-  }
-  
+  background: linear-gradient(to right, #bccfec, #00A3FF);
+  color: #333;
+  padding: 50px 20px;
+  min-height: 100vh;
+}
+
+.feedback-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-container h2 {
+  text-align: center;
+  color: #007bff;
+  margin-bottom: 20px;
+}
+
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+
+.feedback-form label {
+  font-weight: bold;
+  color: #333;
+}
+
+.feedback-form select,
+.feedback-form input,
+.feedback-form textarea {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.feedback-form textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+.feedback-form .submit-btn {
+  padding: 10px 15px;
+  background: #007bff;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.feedback-form .submit-btn:hover {
+  background: #0056b3;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
   .feedback-container {
-    max-width: 600px;
-    margin: 0 auto;
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
   }
-  
-  .feedback-container h2 {
-    text-align: center;
-    color: #007bff;
-    margin-bottom: 20px;
-  }
-  
-  .feedback-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .feedback-form label {
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .feedback-form select,
-  .feedback-form input,
-  .feedback-form textarea {
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-  }
-  
-  .feedback-form textarea {
-    resize: vertical;
-    height: 100px;
-  }
-  
-  .feedback-form .submit-btn {
-    padding: 10px 15px;
-    background: #007bff;
-    color: white;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  
-  .feedback-form .submit-btn:hover {
-    background: #0056b3;
-  }
-  
-  .error-message {
-    color: red;
-    font-size: 0.9rem;
-    text-align: center;
-  }
-  
-  /* Responsive Styles */
-  @media (max-width: 768px) {
-    .feedback-container {
-      padding: 20px;
-    }
-  }
-  
+}

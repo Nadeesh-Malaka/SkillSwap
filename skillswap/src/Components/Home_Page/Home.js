@@ -16,10 +16,8 @@ function Home() {
       const response = await axios.get("http://localhost:5000/api/skills");
       const skillsData = response.data.data;
 
-      // Filter skills with isApproved: true
       const approvedSkills = skillsData.filter((skill) => skill.isApproved);
 
-      // Fetch user details for each approved skill
       const skillsWithUserDetails = await Promise.all(
         approvedSkills.map(async (skill) => {
           const userResponse = await axios.get(`http://localhost:5000/api/users/${skill.userId}`);
@@ -27,11 +25,9 @@ function Home() {
         })
       );
 
-      // Fetch request status for the logged-in user
       const requestResponse = await axios.get(`http://localhost:5000/api/requests/${userId}`);
       const requests = requestResponse.data.requests;
 
-      // Merge request status with skills
       const updatedSkills = skillsWithUserDetails.map((skill) => {
         const matchingRequest = requests.find((req) => req.skillId._id === skill._id);
         if (matchingRequest) {
@@ -52,46 +48,43 @@ function Home() {
     fetchSkills();
   }, []);
 
-const handleRequestClick = async (skill) => {
-  try {
-    const chatURL = `/chat/${skill._id}/${userId}`;
-    
-    // Step 1: Create a new skill request
-    const requestResponse = await axios.post("http://localhost:5000/api/requests", {
-      skillId: skill._id,
-      userId,
-      chatURL,
-    });
+  const handleRequestClick = async (skill) => {
+    try {
+      const chatURL = `/chat/${skill._id}/${userId}`;
+      const requestResponse = await axios.post("http://localhost:5000/api/requests", {
+        skillId: skill._id,
+        userId,
+        chatURL,
+      });
 
-    // Step 2: Update the skill's `isRequest` field to true
-    await axios.put(`http://localhost:5000/api/skills/${skill._id}`, {
-      isRequest: true,
-    });
+      await axios.put(`http://localhost:5000/api/skills/${skill._id}`, {
+        isRequest: true,
+      });
 
-    // Step 3: Update the local state to reflect the changes
-    setSkills((prevSkills) =>
-      prevSkills.map((s) =>
-        s._id === skill._id ? { ...s, isRequested: true } : s
-      )
-    );
+      setSkills((prevSkills) =>
+        prevSkills.map((s) =>
+          s._id === skill._id ? { ...s, isRequested: true } : s
+        )
+      );
 
-    alert(requestResponse.data.message); // Notify the user about the request creation
-  } catch (error) {
-    console.error("Error handling request:", error);
-    alert("Failed to send request. Please try again.");
-  }
-};
-
+      alert(requestResponse.data.message);
+    } catch (error) {
+      console.error("Error handling request:", error);
+      alert("Failed to send request. Please try again.");
+    }
+  };
 
   const handleOpenChat = (skill) => {
     if (skill.isAccepted) {
-      // Navigate to the chat page with necessary parameters (e.g., skill ID and user ID)
       window.location.href = `/chat/${skill._id}/${userId}`;
     } else {
       alert("Chat is only available once the skill request is accepted.");
     }
   };
-  
+
+  const handleGiveFeedback = (skillId) => {
+    window.location.href = `/feedback?skillId=${skillId}`;
+  };
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value.toLowerCase());
@@ -141,12 +134,23 @@ const handleRequestClick = async (skill) => {
                     <p className="profile-description">{skill.description}</p>
                     {skill.isRequested ? (
                       skill.isAccepted ? (
-                        <button
-                          className="request-btn3"
-                          onClick={() => handleOpenChat(skill)}
-                        >
-                          Open Chat
-                        </button>
+                        <div className="button-container">
+                        <>
+                          <button
+                            className="request-btn3"
+                            onClick={() => handleOpenChat(skill)}
+                          >
+                            Open Chat
+                          </button>
+                          <button
+                            className="request-btn4"
+                            onClick={() => handleGiveFeedback(skill._id)}
+                          >
+                            Give Feedback
+                          </button>
+
+                        </>
+                        </div>
                       ) : (
                         <button className="request-btn2" disabled>
                           Request Sent
