@@ -62,7 +62,8 @@ function TermsOfUse() {
 
           <h2>9. Contact Us</h2>
           <p>
-            If you have any questions or concerns about these Terms of Use, please contact us at <a href="mailto:support@skillswap.com">support@skillswap.com</a>.
+            If you have any questions or concerns about these Terms of Use, please contact us at{" "}
+            <a href="mailto:support@skillswap.com">support@skillswap.com</a>.
           </p>
         </section>
       </main>

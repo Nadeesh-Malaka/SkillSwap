@@ -150,6 +150,12 @@
 .sessions-section button:hover {
     background-color: #0056b3;
 }
+.edit-button {
+    background-color: #28a745;
+    color: white;
+  }
+  
+
 
 @media (max-width: 600px) {
     .profile-container {

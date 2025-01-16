@@ -4,6 +4,11 @@ body, h1, label, input, select, textarea, button {
     margin: 0;
     padding: 0;
   }
+
+  body {
+   
+    color: #333;
+  }
   
   main {
     padding: 20px;
@@ -12,6 +17,7 @@ body, h1, label, input, select, textarea, button {
   .skill-listing {
     max-width: 1200px;
     margin: 20px auto;
+    
   }
   
   .skill-form {
@@ -73,6 +79,12 @@ body, h1, label, input, select, textarea, button {
     background-color: #dfec26;
     color: white;
   }
+
+  .chat-button2 {
+    background-color: #0f6ba0;
+    color: white;
+  }
+  
   
   .delete-button {
     background-color: #dc3545;

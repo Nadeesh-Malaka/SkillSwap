@@ -194,7 +194,7 @@ function Profile() {
                 <button onClick={() => handleSkillDelete("skillsTeach", index)}>Delete</button>
               </div>
             ))}
-            <button onClick={() => handleSkillAdd("skillsTeach")}>Add Skill</button>
+            <button  className="edit-button" onClick={() => handleSkillAdd("skillsTeach")}>Add Skill</button>
           </div>
 
           <div>
@@ -209,7 +209,7 @@ function Profile() {
                 <button onClick={() => handleSkillDelete("skillsLearn", index)}>Delete</button>
               </div>
             ))}
-            <button onClick={() => handleSkillAdd("skillsLearn")}>Add Skill</button>
+            <button  className="edit-button" onClick={() => handleSkillAdd("skillsLearn")}>Add Skill</button>
           </div>
         </div>
 

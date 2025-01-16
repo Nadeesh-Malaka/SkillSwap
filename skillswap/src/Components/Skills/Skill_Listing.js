@@ -263,11 +263,11 @@ function SkillListing() {
             />
 
             <div className="button-group">
-              <button type="submit">
+              <button type="submit"  className="edit-button">
                 {editingSkill ? "Update Skill" : "Save Skill"}
               </button>
               {editingSkill && (
-                <button type="button" onClick={() => setEditingSkill(null)}>
+                <button  type="button"   className="edit-button" onClick={() => setEditingSkill(null)}>
                   Cancel
                 </button>
               )}
@@ -332,7 +332,7 @@ function SkillListing() {
                             </a>
                           ) : (
                             // Show the "Approve Request" button if not yet approved
-                            <button onClick={() => approveRequest(skill._id)}>
+                            <button  className="chat-button2" onClick={() => approveRequest(skill._id)}>
                               Approve Request
                             </button>
                           )
