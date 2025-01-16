@@ -106,7 +106,7 @@ const handleRequestClick = async (skill) => {
           <p>Exchange your skills and knowledge with university peers in a collaborative learning environment.</p>
           <div className="cta-buttons">
             <a href="#skills" className="cta">Get Started</a>
-            <a href="#about" className="cta secondary">Learn More</a>
+            <a href="/terms" className="cta secondary">Learn More</a>
           </div>
         </section>
 

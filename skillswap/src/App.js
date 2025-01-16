@@ -11,6 +11,8 @@ import AdminHome from './Components/Admin/Home/AdminHome';
 import Profile from './Components/Profile_Page/Profile';
 import SkillListing from './Components/Skills/Skill_Listing';
 import Chat from './Components/Chat_Page/Chat';
+import AboutUs from './Components/About_Page/AboutUs';
+import TermsOfUse from './Components/TermsOfUse_Page/TermsOfUse';
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
           <Route path='/profile' element={<Profile/>} />
           <Route path='/skill_list' element={<SkillListing/>}/>
           <Route path="/chat/:skillId/:userId" element={<Chat />} />
+          <Route path='/aboutus' element={<AboutUs/>}/>
+          <Route path='/terms' element={<TermsOfUse />} />
 
           {/* Admin route */}
           <Route path='/admin/home' element={<AdminHome />} />

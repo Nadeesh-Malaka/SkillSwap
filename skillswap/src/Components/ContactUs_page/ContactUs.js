@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Navbar from "../NavFooter/nav"; // Import Navbar component
-import Footer from "../NavFooter/footer"; // Import Footer component
- import "./ContactUs.css"; // Import external CSS file
+import Navbar from "../NavFooter/nav";
+import Footer from "../NavFooter/footer";
+import "./ContactUs.css";
 
 const ContactUs = () => {
   const [confirmationMessage, setConfirmationMessage] = useState(false);
@@ -12,12 +12,12 @@ const ContactUs = () => {
   };
 
   return (
-    <div>
+    <div className="contact-us-page">
       {/* Navbar */}
       <Navbar />
 
       {/* Contact Us Content */}
-      <section id="contact-info">
+      <section id="contact-info" className="contact-info">
         <h1>Contact Us</h1>
         <p>
           Welcome to our contact page! We're always here to assist you. If you have
@@ -25,29 +25,30 @@ const ContactUs = () => {
           Below are all the details you need to get in touch with us:
         </p>
 
-        <h2>Our Office Location</h2>
-        <address>
-          123 Business Street, Suite 500, <br />
-          Cityville, State 12345, <br />
-          Country.
-        </address>
+        <div className="contact-details">
+ 
 
-        <h2>Customer Support</h2>
-        <ul>
-          <li>Email: <a href="mailto:support@skillswap.com">support@skillswap.com</a></li>
-          <li>Phone: +123-456-7890</li>
-          <li>Fax: +123-456-7891</li>
-        </ul>
+          <div>
+            <h2>Customer Support</h2>
+            <ul>
+              <li>Email: <a href="mailto:support@skillswap.com">support@skillswap.com</a></li>
+              <li>Phone: +94 774902773</li>
+              <li>Fax:  +94 774902773</li>
+            </ul>
+          </div>
 
-        <h2>Business Inquiries</h2>
-        <ul>
-          <li>Email: <a href="mailto:business@skillswap.com">business@skillswap.com</a></li>
-          <li>Phone: +123-456-7892</li>
-        </ul>
+          <div>
+            <h2>Business Inquiries</h2>
+            <ul>
+              <li>Email: <a href="mailto:business@skillswap.com">business@skillswap.com</a></li>
+              <li>Phone:  +94 774902773</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       {/* Feedback Form */}
-      <section id="feedback-form">
+      <section id="feedback-form" className="feedback-form">
         <h2>We'd Love to Hear From You!</h2>
         <form onSubmit={handleFormSubmit}>
           <label htmlFor="name">Your Name:</label>

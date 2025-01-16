@@ -47,10 +47,10 @@ function Nav() {
           </div>
           <ul className="nav-links">
             <li><a href="/home">Home</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="/aboutus">About</a></li>
             <li><a href="/contact_us">Contact Us</a></li>
             <li><a href="/faq">FAQ</a></li>
-            <li><a href="#">Terms of Use</a></li>
+            <li><a href="/terms">Terms of Use</a></li>
             
             {/* Conditionally render "Sign Up" and "Login" links */}
             {!isLoggedIn ? (
