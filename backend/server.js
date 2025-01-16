@@ -10,7 +10,8 @@ const socketIo = require("socket.io"); // For real-time communication
 const userRoutes = require("./Routes/userRoutes");
 const skillRouter = require("./Routes/SkillRouter");
 const skillReqRoutes = require("./Routes/SkillReqRoutes");
-const chatRoutes = require("./Routes/ChatRoutes"); // Add ChatRoutes
+const chatRoutes = require("./Routes/ChatRoutes"); 
+const contactRoutes = require("./Routes/ContactRoutes");
 
 const app = express();
 const server = http.createServer(app); // Create server instance for Socket.io
@@ -40,7 +41,8 @@ mongoose
 app.use("/api/users", userRoutes); // Prefix for user routes
 app.use("/api/skills", skillRouter);
 app.use("/api/requests", skillReqRoutes);
-app.use("/api/chat", chatRoutes); // Add ChatRoutes
+app.use("/api/chat", chatRoutes); 
+app.use("/api/contact", contactRoutes);
 
 // Test route
 app.get("/api/test", (req, res) => {

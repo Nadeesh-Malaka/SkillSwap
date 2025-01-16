@@ -1,14 +1,36 @@
 import React, { useState } from "react";
+import axios from "axios";
 import Navbar from "../NavFooter/nav";
 import Footer from "../NavFooter/footer";
 import "./ContactUs.css";
 
 const ContactUs = () => {
-  const [confirmationMessage, setConfirmationMessage] = useState(false);
+  const [confirmationMessage, setConfirmationMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setConfirmationMessage(true);
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const message = e.target.message.value;
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/contact", {
+        name,
+        email,
+        message,
+      });
+
+      if (response.data.success) {
+        setConfirmationMessage("Thank you for your feedback! We'll get back to you soon.");
+        setErrorMessage("");
+        e.target.reset(); // Clear the form
+      }
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+      setErrorMessage("Failed to submit feedback. Please try again later.");
+      setConfirmationMessage("");
+    }
   };
 
   return (
@@ -26,22 +48,26 @@ const ContactUs = () => {
         </p>
 
         <div className="contact-details">
- 
-
           <div>
             <h2>Customer Support</h2>
             <ul>
-              <li>Email: <a href="mailto:support@skillswap.com">support@skillswap.com</a></li>
+              <li>
+                Email:{" "}
+                <a href="mailto:support@skillswap.com">support@skillswap.com</a>
+              </li>
               <li>Phone: +94 774902773</li>
-              <li>Fax:  +94 774902773</li>
+              <li>Fax: +94 774902773</li>
             </ul>
           </div>
 
           <div>
             <h2>Business Inquiries</h2>
             <ul>
-              <li>Email: <a href="mailto:business@skillswap.com">business@skillswap.com</a></li>
-              <li>Phone:  +94 774902773</li>
+              <li>
+                Email:{" "}
+                <a href="mailto:business@skillswap.com">business@skillswap.com</a>
+              </li>
+              <li>Phone: +94 774902773</li>
             </ul>
           </div>
         </div>
@@ -82,7 +108,12 @@ const ContactUs = () => {
 
         {confirmationMessage && (
           <div id="confirmationMessage" className="confirmation">
-            Thank you for your feedback! We'll get back to you soon.
+            {confirmationMessage}
+          </div>
+        )}
+        {errorMessage && (
+          <div id="errorMessage" className="error">
+            {errorMessage}
           </div>
         )}
       </section>
