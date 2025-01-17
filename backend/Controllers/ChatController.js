@@ -74,3 +74,57 @@ exports.getMessages = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch messages" });
   }
 };
+
+
+// Fetch all chat messages
+exports.getAllChats = async (req, res) => {
+  try {
+    const chats = await Chat.find()
+      .populate("skillId", "title skill_pic") // Populate `title` and `skill_pic` from Skill
+      .select("skillId message createdAt"); // Only include necessary fields
+    const chatsWithSkill = chats.map((chat) => ({
+      _id: chat._id,
+      message: chat.message,
+      createdAt: chat.createdAt,
+      skillTitle: chat.skillId?.title || "N/A", // Ensure no errors if `skillId` is missing
+      skillImage: chat.skillId?.skill_pic || "images/default_skill.png",
+    }));
+    res.status(200).json({ success: true, chats: chatsWithSkill });
+  } catch (error) {
+    console.error("Error fetching chats:", error);
+    res.status(500).json({ error: "Failed to fetch chats" });
+  }
+};
+
+
+
+// Delete a chat message
+exports.deleteChat = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Chat.findByIdAndDelete(id);
+    res.status(200).json({ success: true, message: "Chat message deleted." });
+  } catch (error) {
+    console.error("Error deleting chat:", error);
+    res.status(500).json({ error: "Failed to delete chat message" });
+  }
+};
+
+
+// Get skill details by ID
+exports.getSkillDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const skill = await Skill.findById(id).populate("userId", "fullName email");
+    if (!skill) {
+      return res.status(404).json({ error: "Skill not found" });
+    }
+    res.status(200).json({ success: true, skill });
+  } catch (error) {
+    console.error("Error fetching skill details:", error);
+    res.status(500).json({ error: "Failed to fetch skill details" });
+  }
+};
+
+
+
