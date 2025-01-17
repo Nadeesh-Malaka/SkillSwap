@@ -125,3 +125,78 @@ footer {
       display: flex;
   }
 }
+/* General Footer Styles */
+.footer {
+  background-color: #000; /* Deep black background */
+  color: #fff; /* White text */
+  padding: 40px 0;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footer-logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #00ff88; /* Bright accent color */
+}
+
+.footer-menu {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.footer-menu li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.footer-menu li a:hover {
+  color: #00ff88; /* Hover effect with accent color */
+}
+
+.social-links {
+  margin-top: 20px;
+}
+
+.social-icon {
+  display: inline-block;
+  margin: 0 10px;
+  color: #fff;
+  font-size: 20px;
+  transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+  color: #00ff88;
+}
+
+.footer-text {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer-menu {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .social-icon {
+    font-size: 18px;
+  }
+}
