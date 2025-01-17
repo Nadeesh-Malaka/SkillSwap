@@ -207,7 +207,8 @@ const Adminuser = () => {
                         Edit
                       </button>
                       <button
-                        className="btn"
+                        className="delete-button"
+
                         onClick={() => handleDelete(user._id)}
                       >
                         Delete
