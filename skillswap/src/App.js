@@ -7,7 +7,6 @@ import FAQ from './Components/FAQ_Page/FAQ';
 import Register from './Components/Register_page/Register';
 import Login from './Components/Login_Page/Login';
 import Home from './Components/Home_Page/Home';
-import AdminHome from './Components/Admin/Home/AdminHome';
 import Profile from './Components/Profile_Page/Profile';
 import SkillListing from './Components/Skills/Skill_Listing';
 import Chat from './Components/Chat_Page/Chat';
@@ -15,6 +14,8 @@ import AboutUs from './Components/About_Page/AboutUs';
 import TermsOfUse from './Components/TermsOfUse_Page/TermsOfUse';
 import FeedbackForm from './Components/Home_Page/FeedbackForm';
 import Skill_Feedback from './Components/Skills/Skill_Feedback';
+import AdminNav from './Components/Admin/Nav/AdminNav';
+import AddUser from './Components/Admin/Users/AddUser';
 
 function App() {
   return (
@@ -39,7 +40,13 @@ function App() {
           <Route path='/showfeedback' element={<Skill_Feedback/>}/>
 
           {/* Admin route */}
-          <Route path='/admin/home' element={<AdminHome />} />
+          
+          <Route path='/admin/home' element={<AdminNav/>} />
+
+
+
+         <Route path='/admin/users/adduser' element={<AddUser/>} />
+
         </Routes>
       </BrowserRouter>
     </div>

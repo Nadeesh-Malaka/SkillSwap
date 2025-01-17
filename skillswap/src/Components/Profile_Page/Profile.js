@@ -140,7 +140,7 @@ function Profile() {
             <img
               src={`http://localhost:5000/${userData.profile_pic}`}
               alt="Profile"
-              className="profile-pic"
+              className="profile-pic1"
               onClick={() => document.getElementById("profile-pic-input").click()}
             />
             <input

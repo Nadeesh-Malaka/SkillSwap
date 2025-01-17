@@ -175,7 +175,7 @@ main p {
     margin-bottom: 20px;
 }
 
-.profile-pic {
+.profile-pic1 {
     width: 250px; /* Square size */
     height: 140px; /* Square size */
     object-fit: cover; /* Ensures image keeps its aspect ratio */

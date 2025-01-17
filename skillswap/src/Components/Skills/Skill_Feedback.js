@@ -96,7 +96,7 @@ function Skill_Feedback() {
                     <th>Rating UserName</th>
                     <th>Rating</th>
                     <th>Comment</th>
-                    <th>Actions</th>
+                    
                   </tr>
                 </thead>
                 <tbody>
@@ -115,14 +115,7 @@ function Skill_Feedback() {
                       <td>{feedback.userId?.fullName || "Anonymous"}</td>
                       <td>{feedback.rating}</td>
                       <td>{feedback.comment}</td>
-                      <td>
-                        <button
-                          className="delete-feedback-button"
-                          onClick={() => deleteFeedback(feedback._id, skill._id)}
-                        >
-                          Delete Feedback
-                        </button>
-                      </td>
+                      
                     </tr>
                   ))}
                 </tbody>

@@ -127,7 +127,7 @@ function Home() {
                     <img
                       src={`http://localhost:5000/${skill.skill_pic}`}
                       alt={skill.title}
-                      className="profile-pic"
+                      className="profile-pic1"
                     />
                     <h3 className="profile-name">{skill.userName}</h3>
                     <p className="profile-skill">Skill: {skill.title}</p>
