@@ -69,17 +69,7 @@ const AdminNav = () => {
                 Chat
               </a>
             </li>
-            <li>
-              <a
-                href="#"
-                className={
-                  activeSection === "user-feedback-section" ? "active" : ""
-                }
-                onClick={() => handleNavClick("user-feedback-section")}
-              >
-                User Feedback
-              </a>
-            </li>
+      
             <li>
               <a
                 href="#"
