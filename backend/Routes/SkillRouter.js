@@ -24,4 +24,11 @@ router.get('/search/:query', skillController.searchSkills);
 // Update isRequest field for a specific skill
 router.put("/update-isRequest/:id", skillController.updateSkillture);
 
+
+// Approve a skill
+router.patch('/:id/approve', skillController.approveSkill);
+
+// Reject a skill
+router.patch('/:id/reject', skillController.rejectSkill);
+
 module.exports = router;

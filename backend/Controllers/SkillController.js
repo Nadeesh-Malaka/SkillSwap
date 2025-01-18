@@ -154,3 +154,40 @@ exports.getRequestedSkills = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+
+// Approve a skill
+exports.approveSkill = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updatedSkill = await Skill.findByIdAndUpdate(
+      id,
+      { isApproved: true }, // Set isApproved to true for approval
+      { new: true }
+    );
+    if (!updatedSkill) {
+      return res.status(404).json({ message: "Skill not found" });
+    }
+    res.status(200).json({ success: true, data: updatedSkill });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Reject a skill
+exports.rejectSkill = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updatedSkill = await Skill.findByIdAndUpdate(
+      id,
+      { isApproved: false }, // Set isApproved to false for rejection
+      { new: true }
+    );
+    if (!updatedSkill) {
+      return res.status(404).json({ message: "Skill not found" });
+    }
+    res.status(200).json({ success: true, data: updatedSkill });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
