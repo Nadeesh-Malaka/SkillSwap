@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import "./style.css";
 import user2Image from "./resources/user2.png";
 import user1Image from "./resources/user1.png";
@@ -8,7 +9,6 @@ import Nav from "../NavFooter/nav";
 import Footer from "../NavFooter/footer";
 
 function Landing() {
-
   const [currentIndex, setCurrentIndex] = useState(0);
   const totalCards = 3;
 
@@ -29,34 +29,51 @@ function Landing() {
           <h1>Welcome to SkillSwap</h1>
           <p>Connect, collaborate, and grow with us!</p>
           <div className="cta-buttons">
-            <button>Sign Up</button>
-            <button>Learn More</button>
+            {/* Replace <button> with <Link> for navigation */}
+            <Link to="/register" className="highlight">
+              <button>Sign Up</button>
+            </Link>
+            <Link to="/terms" className="highlight">
+              <button>Learn More</button>
+            </Link>
           </div>
         </section>
 
         <section className="image-section">
           <img src={pic1} alt="Hero Image" className="hero-image" />
         </section>
-        <br/>
-        <section class="info-section">
-      <div class="info">
-        <p>University Skill Exchange Platform</p>
-      </div>
-      <div class="features">
-        <div class="feature-item">
-          <h3>Key Features</h3>
-          <p>Connect with peers, share knowledge, and enhance your skills. Whether you're teaching or learning, our platform helps you grow academically and professionally.</p>
-        </div>
-        <div class="feature-item">
-          <h3>Benefits</h3>
-          <p>Join our University Skill Exchange platform to learn, teach, and collaborate with peers. Access flexible, personalized learning opportunities to grow academically.</p>
-        </div>
-      </div>
-    </section>
+
+        <br />
+        <section className="info-section">
+          <div className="info">
+            <p>University Skill Exchange Platform</p>
+          </div>
+          <div className="features">
+            <div className="feature-item">
+              <h3>Key Features</h3>
+              <p>
+                Connect with peers, share knowledge, and enhance your skills.
+                Whether you're teaching or learning, our platform helps you grow
+                academically and professionally.
+              </p>
+            </div>
+            <div className="feature-item">
+              <h3>Benefits</h3>
+              <p>
+                Join our University Skill Exchange platform to learn, teach, and
+                collaborate with peers. Access flexible, personalized learning
+                opportunities to grow academically.
+              </p>
+            </div>
+          </div>
+        </section>
 
         <section className="feedback-section">
           <h2>User Feedback</h2>
-          <div className="swap-cards" style={{ transform: `translateX(-${currentIndex * 240}px)` }}>
+          <div
+            className="swap-cards"
+            style={{ transform: `translateX(-${currentIndex * 240}px)` }}
+          >
             <div className="swap-card active">
               <img src={user1Image} alt="User Image" />
               <h3>Harsha Madushanka</h3>
@@ -75,8 +92,7 @@ function Landing() {
           </div>
         </section>
       </main>
-      <Footer/>
-     
+      <Footer />
     </div>
   );
 }
