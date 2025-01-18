@@ -58,3 +58,17 @@ exports.deleteFeedback = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// Get all feedbacks
+exports.getAllFeedback = async (req, res) => {
+  try {
+    const feedbacks = await Feedback.find().populate("skillId userId", "name fullName"); // Populating skillId and userId fields
+    res.status(200).json({
+      success: true,
+      data: feedbacks,
+    });
+  } catch (error) {
+    console.error("Error fetching all feedbacks:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

@@ -11,4 +11,8 @@ router.get("/:skillId", FeedbackController.getFeedbackBySkillId);
 // Delete a feedback
 router.delete("/:feedbackId", FeedbackController.deleteFeedback);
 
+// Get all feedbacks
+router.get("/", FeedbackController.getAllFeedback);
+
+
 module.exports = router;
