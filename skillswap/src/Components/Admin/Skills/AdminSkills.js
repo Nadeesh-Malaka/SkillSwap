@@ -105,6 +105,7 @@ const AdminSkills = () => {
         <table className="skills-table">
           <thead>
             <tr>
+              <th>#</th>
               <th>Image</th>
               <th>Name</th>
               <th>Category</th>
@@ -115,6 +116,7 @@ const AdminSkills = () => {
           <tbody>
             {skills.map((skill) => (
               <tr key={skill._id}>
+                <td>{skills.indexOf(skill) + 1}</td>
                 <td>
                   <img
                     src={`http://localhost:5000/${skill.skill_pic || "images/default_skill.png"}`}

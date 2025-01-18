@@ -5,19 +5,29 @@ import "./styles.css";
 const SkillsFeedback = () => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState(""); // Search query for filtering feedbacks
 
   // Fetch all feedbacks
   const fetchFeedbacks = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/feedback/");
-      // Access the 'data' property and set the feedbacks
-      setFeedbacks(response.data.data); 
+      setFeedbacks(response.data.data);
     } catch (error) {
       console.error("Error fetching feedbacks:", error);
       alert("Failed to load feedbacks. Please try again.");
     } finally {
       setLoading(false);
     }
+  };
+
+  // Search feedbacks based on user name or comment
+  const searchFeedbacks = () => {
+    const filteredFeedbacks = feedbacks.filter(
+      (feedback) =>
+        feedback.userId?.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        feedback.comment.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFeedbacks(filteredFeedbacks);
   };
 
   // Delete a feedback
@@ -28,7 +38,6 @@ const SkillsFeedback = () => {
       );
       if (response.data.success) {
         alert("Feedback deleted successfully!");
-        // Remove the feedback from the state
         setFeedbacks((prev) => prev.filter((fb) => fb._id !== feedbackId));
       } else {
         alert("Failed to delete feedback. Please try again.");
@@ -46,6 +55,18 @@ const SkillsFeedback = () => {
   return (
     <div className="main-content">
       <h3>Skills Feedback</h3>
+
+      {/* Search Section */}
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search feedbacks..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button onClick={searchFeedbacks}>Search</button>
+      </div>
+
       {loading ? (
         <p>Loading feedbacks...</p>
       ) : feedbacks.length > 0 ? (
@@ -62,9 +83,8 @@ const SkillsFeedback = () => {
           <tbody>
             {feedbacks.map((feedback, index) => (
               <tr key={feedback._id}>
-                <td>{index + 1}</td> {/* Dynamic ID */}
-                
-                <td>{feedback.userId?.fullName || "Anonymous"}</td> {/* User Name */}
+                <td>{index + 1}</td>
+                <td>{feedback.userId?.fullName || "Anonymous"}</td>
                 <td>{feedback.rating}</td>
                 <td>{feedback.comment || "No Comment"}</td>
                 <td>

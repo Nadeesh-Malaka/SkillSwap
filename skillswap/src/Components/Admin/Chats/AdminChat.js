@@ -58,7 +58,7 @@ const AdminChat = () => {
         <table className="chat-table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th>#</th>
               <th>Skill Image</th>
               <th>Skill Title</th>
               <th>Message</th>

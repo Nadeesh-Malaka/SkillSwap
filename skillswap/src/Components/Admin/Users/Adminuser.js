@@ -175,7 +175,7 @@ const Adminuser = () => {
             <table id="users-table">
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <th>#</th>
                   <th>Profile Pic</th>
                   <th>Name</th>
                   <th>Email</th>
