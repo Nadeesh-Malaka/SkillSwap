@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import navigate hook for redirection
 import "./AdminNav.css";
 import Nav from "../../NavFooter/nav";
 import Adminuser from "../Users/Adminuser";
@@ -10,6 +11,14 @@ import UserFeedback from "../UsersFeedbacks/UserFeedback";
 
 const AdminNav = () => {
   const [activeSection, setActiveSection] = useState("users-section");
+  const navigate = useNavigate(); // Initialize navigate for redirection
+
+  // Function to handle sign-out
+  const handleSignOut = () => {
+    localStorage.removeItem("authToken"); // Remove auth token from localStorage
+    // Optional: Remove any other session-related data
+    navigate("/login"); // Redirect to login page
+  };
 
   const handleNavClick = (section) => {
     setActiveSection(section);
@@ -69,13 +78,10 @@ const AdminNav = () => {
                 Chat
               </a>
             </li>
-      
             <li>
               <a
                 href="#"
-                className={
-                  activeSection === "skills-feedback-section" ? "active" : ""
-                }
+                className={activeSection === "skills-feedback-section" ? "active" : ""}
                 onClick={() => handleNavClick("skills-feedback-section")}
               >
                 Skills Feedback
@@ -91,7 +97,7 @@ const AdminNav = () => {
               </a>
             </li>
             <li>
-              <a href="#logout" className="logout">
+              <a href="#" className="logout" onClick={handleSignOut}>
                 Logout
               </a>
             </li>
