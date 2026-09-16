@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import "./feedbackForm.css";
 import Nav from "../NavFooter/nav";
 import Footer from "../NavFooter/footer";
+import { Star } from "lucide-react";
 
 const FeedbackForm = () => {
   const [rating, setRating] = useState(0);
@@ -52,7 +53,7 @@ const FeedbackForm = () => {
                   onClick={() => setRating(star)}
                   aria-label={`${star} star`}
                 >
-                  ?
+                  <Star size={32} fill={rating >= star ? "currentColor" : "none"} strokeWidth={1.5} />
                 </button>
               ))}
             </div>

@@ -129,7 +129,9 @@ function Home() {
                   <div className="skill-card-category">{skill.category}</div>
                   <p className="skill-card-desc">{skill.description}</p>
                   <div className="skill-card-action">
-                    {skill.isRequested ? (
+                    {skill.userId === userId ? (
+                      <button className="btn-requested" disabled style={{opacity: 0.7, background: 'var(--border)', color: 'var(--text-secondary)'}}>Your Skill</button>
+                    ) : skill.isRequested ? (
                       skill.isAccepted ? (
                         <>
                           <button className="btn-chat" onClick={() => handleOpenChat(skill)}>Open Chat</button>

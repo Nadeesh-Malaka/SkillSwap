@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./style.css";
 import Nav from "../NavFooter/nav";
@@ -18,7 +18,36 @@ function SkillListing() {
     if (!userId) { alert("User not logged in. Please log in to view your skills."); setLoading(false); return; }
     try {
       const response = await axios.get(`http://localhost:5000/api/skills?userId=${userId}`);
-      setSkills(response.data.data.filter((skill) => skill.userId === userId));
+      let userSkills = response.data.data.filter((skill) => skill.userId === userId);
+      
+      try {
+        // Fetch requests for each skill to see if they are accepted
+        userSkills = await Promise.all(userSkills.map(async (skill) => {
+          if (skill.isRequest) {
+            try {
+              const reqResponse = await axios.get(`http://localhost:5000/api/requests/skill/${skill._id}`);
+              const requests = reqResponse.data.requests || [];
+              if (requests.length > 0) {
+                // If any request is accepted, use it. Otherwise just use the first request's data.
+                const acceptedReq = requests.find(r => r.isAccepted);
+                const reqToUse = acceptedReq || requests[0];
+                return {
+                  ...skill,
+                  isRequestAccepted: reqToUse.isAccepted,
+                  chatURL: reqToUse.chatURL
+                };
+              }
+            } catch (e) {
+              console.error("Error fetching request for skill", skill._id, e);
+            }
+          }
+          return skill;
+        }));
+      } catch (reqErr) {
+        console.error("Error fetching requests for skills:", reqErr);
+      }
+
+      setSkills(userSkills);
     } catch (error) {
       console.error("Failed to fetch skills:", error);
       alert("Error fetching skills. Please try again.");
@@ -27,28 +56,9 @@ function SkillListing() {
     }
   };
 
-  const fetchRequests = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/api/requests`);
-      setRequests(response.data.requests);
-    } catch (error) {
-      console.error("Error fetching requests:", error);
-    }
-  };
+  useEffect(() => { fetchSkills(); }, []);
 
-  useEffect(() => { fetchSkills(); fetchRequests(); }, []);
 
-  const handleApprove = async (requestId) => {
-    try {
-      const response = await axios.patch("http://localhost:5000/api/requests", { requestId, isAccepted: true });
-      const { chatURL } = response.data.request;
-      alert("Request approved!");
-      if (chatURL) window.open(chatURL, "_blank");
-      fetchRequests();
-    } catch (error) {
-      console.error("Error approving request:", error);
-    }
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -107,7 +117,7 @@ function SkillListing() {
       if (!skillRequest || !skillRequest._id) { alert("Skill request not found!"); return; }
       const response = await axios.patch("http://localhost:5000/api/requests/status", { requestId: skillRequest._id, isAccepted: true });
       if (response.data.success) {
-        setSkills((prev) => prev.map((skill) => skill._id === skillId ? { ...skill, isApproved: true, chatURL: skillRequest.chatURL } : skill));
+        setSkills((prev) => prev.map((skill) => skill._id === skillId ? { ...skill, isRequestAccepted: true, chatURL: skillRequest.chatURL } : skill));
         alert("Request approved successfully!");
       } else {
         alert("Failed to approve the request.");
@@ -212,8 +222,8 @@ function SkillListing() {
                         </td>
                         <td>
                           {skill.isRequest ? (
-                            skill.isApproved && skill.chatURL ? (
-                              <a href={skill.chatURL} target="_blank" rel="noopener noreferrer">
+                            skill.isRequestAccepted && skill.chatURL ? (
+                              <a href={skill.chatURL}>
                                 <button className="chat-button">Open Chat</button>
                               </a>
                             ) : (
