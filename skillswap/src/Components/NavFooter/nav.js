@@ -5,13 +5,13 @@ import "./style.css";
 function Nav() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Check if the user is logged in and their role when the component mounts
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {
-      const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode the JWT to get the role
+      const decodedToken = JSON.parse(atob(token.split('.')[1]));
       setIsLoggedIn(true);
       if (decodedToken.role === "admin") {
         setIsAdmin(true);
@@ -19,61 +19,61 @@ function Nav() {
     }
   }, []);
 
-  // Handle sign-out
   const handleSignOut = () => {
     localStorage.removeItem("authToken");
     setIsLoggedIn(false);
     setIsAdmin(false);
-    navigate("/login"); // Redirect to home or login
+    navigate("/login");
   };
 
   function toggleMenu() {
+    setMenuOpen((prev) => !prev);
     const navLinks = document.querySelector(".nav-links");
-    navLinks.classList.toggle("show");
+    if (navLinks) navLinks.classList.toggle("show");
   }
 
   return (
-    <div>
-      <header>
-        <div className="logo">
-          <Link to="/">Skill<span>Swap</span></Link> {/* Using Link for React Router */}
+    <header className="site-header">
+      <div className="nav-inner">
+        <Link to="/" className="nav-logo">
+          Skill<span>Swap</span>
+        </Link>
+
+        <div className="hamburger-menu" onClick={toggleMenu} aria-label="Toggle menu">
+          <div></div>
+          <div></div>
+          <div></div>
         </div>
 
-        <nav>
-          <div className="hamburger-menu" onClick={toggleMenu}>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <ul className="nav-links">
-            <li><a href="/home">Home</a></li>
-            <li><a href="/aboutus">About</a></li>
-            <li><a href="/contact_us">Contact Us</a></li>
-            <li><a href="/faq">FAQ</a></li>
-            <li><a href="/terms">Terms of Use</a></li>
-            
-            {/* Conditionally render "Sign Up" and "Login" links */}
-            {!isLoggedIn ? (
-              <>
-                <li><a href="/login" className="highlight">Sign In</a></li>
-                <li><a href="/register" className="highlight">Register</a></li>
-                
-              </>
-            ) : (
-              <>
-              <li><a href="/skill_list">Skill Listing</a></li>
-               <li><a href="/profile" className="highlight">Profile</a></li>
-               
+        <ul className="nav-links">
+          <li><Link to="/home">Home</Link></li>
+          <li><Link to="/aboutus">About</Link></li>
+          <li><Link to="/contact_us">Contact Us</Link></li>
+          {/* <li><Link to="/faq">FAQ</Link></li>
+          <li><Link to="/terms">Terms of Use</Link></li> */}
 
-                {/* Admin Link */}
-                {isAdmin && <li><a href="/admin/home" className="highlight">Admin</a></li>}
-                <li><a href="#" className="highlight" onClick={handleSignOut}>Sign Out</a></li>
-              </>
-            )}
-          </ul>
-        </nav>
-      </header>
-    </div>
+          <li><div className="nav-divider" /></li>
+
+          {!isLoggedIn ? (
+            <>
+              <li><Link to="/login" className="nav-signin">Sign In</Link></li>
+              <li><Link to="/register" className="nav-register">Register</Link></li>
+            </>
+          ) : (
+            <>
+              <li><Link to="/skill_list">My Skills</Link></li>
+              <li><Link to="/profile" className="nav-signin">Profile</Link></li>
+              {isAdmin && <li><Link to="/admin/home">Admin</Link></li>}
+              <li>
+                <a href="#!" className="nav-signout" onClick={handleSignOut}>
+                  Sign Out
+                </a>
+              </li>
+            </>
+          )}
+        </ul>
+      </div>
+    </header>
   );
 }
 

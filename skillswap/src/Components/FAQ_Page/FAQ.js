@@ -1,71 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import Nav from "../NavFooter/nav";
+import Footer from "../NavFooter/footer";
 import "./style.css";
-import Navbar from "../NavFooter/nav"; // Import Navbar component
-import Footer from "../NavFooter/footer"; // Import Footer component
 
-const FAQ = () => {
+const faqs = [
+  { q: "What is SkillSwap?", a: "SkillSwap is a university-focused platform that allows students to exchange skills with their peers. You can teach what you know and learn what you need." },
+  { q: "Who can use SkillSwap?", a: "SkillSwap is designed primarily for university students. Anyone with a university email can sign up and start exchanging skills." },
+  { q: "How do I sign up?", a: "Click the 'Register' button in the navigation bar. Fill in your details, list the skills you can teach and the skills you want to learn, and submit." },
+  { q: "Is SkillSwap free to use?", a: "Yes! SkillSwap is completely free. Our mission is to promote knowledge exchange among students without any financial barriers." },
+  { q: "How does the skill exchange process work?", a: "Browse available skills on the Home page, find someone whose skill you want, and send a request. Once accepted, you both get access to the chat and can start exchanging." },
+  { q: "Is my personal information safe?", a: "We take data privacy seriously. Your information is stored securely and never shared with third parties without your consent." },
+];
+
+function FAQ() {
   const [activeIndex, setActiveIndex] = useState(null);
 
-  const toggleFAQ = (index) => {
-    setActiveIndex(activeIndex === index ? null : index);
-  };
-
-  const faqs = [
-    {
-      question: "What is SkillSwap?",
-      answer: "SkillSwap is a platform where university students can exchange skills by offering and requesting assistance from their peers.",
-    },
-    {
-      question: "Who can use SkillSwap?",
-      answer: "The platform is designed for university students to foster a collaborative learning environment.",
-    },
-    {
-      question: "How does SkillSwap work?",
-      answer: "Users can register, list the skills they offer, and request skills they want to learn. An intelligent matching mechanism pairs users for skill exchanges.",
-    },
-    {
-      question: "Is the platform free?",
-      answer: "Yes, SkillSwap is free to use for university students.",
-    },
-    {
-      question: "What features does SkillSwap offer?",
-      answer: "Features include user registration, skill listings, real-time chat, peer reviews, feedback mechanisms, and admin controls for moderation.",
-    },
-    {
-      question: "How can I provide feedback?",
-      answer: "After completing a skill exchange session, you can rate and review your experience directly on the platform.",
-    },
-  ];
+  const toggle = (i) => setActiveIndex(activeIndex === i ? null : i);
 
   return (
     <div>
-      <Navbar />
-      <main>
-      
-        <section className="faq-section">
+      <Nav />
+      <main className="faq-page">
+        <div className="faq-hero">
           <h1>Frequently Asked Questions</h1>
+          <p>Everything you need to know about SkillSwap.</p>
+        </div>
+
+        <section className="faq-section">
           <div className="faq">
-            {faqs.map((faq, index) => (
-              <div
-                key={index}
-                className={`faq-item ${activeIndex === index ? 'active' : ''}`}
-                onClick={() => toggleFAQ(index)}
-                aria-expanded={activeIndex === index}
-              >
-                <h2 className="faq-question">
-                  {faq.question}
-                  <span className="faq-icon">{activeIndex === index ? "−" : "+"}</span>
-                </h2>
-                <p className="faq-answer">{faq.answer}</p>
+            {faqs.map((item, i) => (
+              <div key={i} className={`faq-item ${activeIndex === i ? "active" : ""}`} onClick={() => toggle(i)}>
+                <h3 className="faq-question">
+                  {item.q}
+                  <span className="faq-icon">{activeIndex === i ? "-" : "+"}</span>
+                </h3>
+                <p className="faq-answer">{item.a}</p>
               </div>
             ))}
           </div>
         </section>
-       
       </main>
       <Footer />
     </div>
   );
-};
+}
 
 export default FAQ;
