@@ -1,4 +1,6 @@
 # **SkillSwap Platform**
+<img width="1189" height="644" alt="dashbord" src="https://github.com/user-attachments/assets/091f55e6-881d-4290-a1d4-a5df11d0bd6b" />
+
 
 ## **Project Overview**
 
