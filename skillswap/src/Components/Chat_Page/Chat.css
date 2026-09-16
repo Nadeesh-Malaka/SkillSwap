@@ -1,4 +1,4 @@
-/* =============================================
+﻿/* =============================================
    CHAT PAGE
    ============================================= */
 .chat-page-wrapper { display: flex; flex-direction: column; height: calc(100vh - var(--navbar-height)); background: var(--bg); }
@@ -62,19 +62,56 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 16px;
   background: var(--bg);
 }
 
-.message { display: flex; max-width: 70%; }
+.message-wrapper {
+  display: flex;
+  gap: 12px;
+  max-width: 75%;
+}
 
-.message.sent { align-self: flex-end; justify-content: flex-end; }
-.message.received { align-self: flex-start; }
+.message-wrapper.sent-wrapper {
+  align-self: flex-end;
+  justify-content: flex-end;
+}
+
+.message-wrapper.received-wrapper {
+  align-self: flex-start;
+}
+
+.message-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.message-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.message-sender-name {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.message { display: flex; }
 
 .message p {
   margin: 0;
   padding: 10px 16px;
-  border-radius: 18px;
   font-size: 0.9375rem;
   line-height: 1.5;
   word-break: break-word;
@@ -87,10 +124,11 @@
 }
 
 .message.received p {
-  background: var(--surface);
+  background: #fff;
   color: var(--text-primary);
   border: 1px solid var(--border);
   border-radius: 18px 18px 18px 4px;
+  box-shadow: var(--shadow-sm);
 }
 
 .input-container {
@@ -133,5 +171,5 @@
 @media (max-width: 768px) {
   .chat-container { flex-direction: column; padding: 12px; }
   .chat-sidebar { width: 100%; }
-  .message { max-width: 85%; }
+  .message-wrapper { max-width: 90%; }
 }
