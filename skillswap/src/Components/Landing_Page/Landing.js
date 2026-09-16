@@ -1,93 +1,105 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
-import "./style.css";
-import user2Image from "./resources/user2.png";
-import user1Image from "./resources/user1.png";
-import user3Image from "./resources/user3.png";
-import pic1 from "./resources/pic1.jpg";
+import React from "react";
 import Nav from "../NavFooter/nav";
 import Footer from "../NavFooter/footer";
+import "./style.css";
+import heroImg from "./resources/pic1.jpg";
+import { Link } from "react-router-dom";
+import { ShieldCheck, Rocket, BookOpen, Star } from "lucide-react";
 
 function Landing() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const totalCards = 3;
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % totalCards);
-    }, 2000);
-
-    return () => clearInterval(interval); // Cleanup interval on unmount
-  }, [totalCards]);
-
   return (
-    <div>
+    <div className="landing-page">
       <Nav />
-
       <main>
+        {/* Hero Section */}
         <section className="hero">
-          <h1>Welcome to SkillSwap</h1>
-          <p>Connect, collaborate, and grow with us!</p>
-          <div className="cta-buttons">
-            {/* Replace <button> with <Link> for navigation */}
-            <Link to="/register" className="highlight">
-              <button>Sign Up</button>
-            </Link>
-            <Link to="/terms" className="highlight">
-              <button>Learn More</button>
-            </Link>
+          <div className="hero-inner">
+            <div className="hero-content">
+            <span className="badge">Welcome to SkillSwap</span>
+            <h1 className="hero-title">
+              Exchange Knowledge.<br />
+              <span>Elevate Your Future.</span>
+            </h1>
+            <p className="hero-description">
+              Connect with university peers to learn new skills and share your expertise. 
+              The ultimate collaborative learning platform designed for students.
+            </p>
+            <div className="hero-actions">
+              <Link to="/register" className="btn btn-primary">Get Started</Link>
+              <Link to="/about" className="btn btn-secondary">Learn More</Link>
+            </div>
+          </div>
+          <div className="hero-image-wrapper">
+            <div className="hero-image-backdrop"></div>
+            <img src={heroImg} alt="Students collaborating" className="hero-image" />
+          </div>
           </div>
         </section>
 
-        <section className="image-section">
-          <img src={pic1} alt="Hero Image" className="hero-image" />
-        </section>
-
-        <br />
-        <section className="info-section">
-          <div className="info">
-            <p>University Skill Exchange Platform</p>
+        {/* Stats Strip */}
+        <section className="stats-strip">
+          <div className="stats-inner">
+            <div className="stat-item">
+            <div className="stat-number">500+</div>
+            <div className="stat-label">Active Students</div>
           </div>
-          <div className="features">
-            <div className="feature-item">
-              <h3>Key Features</h3>
-              <p>
-                Connect with peers, share knowledge, and enhance your skills.
-                Whether you're teaching or learning, our platform helps you grow
-                academically and professionally.
-              </p>
-            </div>
-            <div className="feature-item">
-              <h3>Benefits</h3>
-              <p>
-                Join our University Skill Exchange platform to learn, teach, and
-                collaborate with peers. Access flexible, personalized learning
-                opportunities to grow academically.
-              </p>
-            </div>
+          <div className="stat-item">
+            <div className="stat-number">120+</div>
+            <div className="stat-label">Skills Offered</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-number">300+</div>
+            <div className="stat-label">Successful Swaps</div>
+          </div>
           </div>
         </section>
 
-        <section className="feedback-section">
-          <h2>User Feedback</h2>
-          <div
-            className="swap-cards"
-            style={{ transform: `translateX(-${currentIndex * 240}px)` }}
-          >
-            <div className="swap-card active">
-              <img src={user1Image} alt="User Image" />
-              <h3>Harsha Madushanka</h3>
-              <p>"This platform is amazing! I've learned so much from the community."</p>
+        {/* Features Section */}
+        <section className="features-section">
+          <div className="section-header">
+            <h2>Why Choose SkillSwap?</h2>
+            <p>Everything you need to grow your skillset and build your network.</p>
+          </div>
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-icon"><Rocket size={28} /></div>
+              <h3>Fast & Easy Connection</h3>
+              <p>Find students who know exactly what you want to learn, and connect instantly through our platform.</p>
             </div>
-            <div className="swap-card">
-              <img src={user2Image} alt="User Image" />
-              <h3>Sasini Savindi</h3>
-              <p>"SkillSwap has completely changed the way I approach learning and collaboration."</p>
+            <div className="feature-card">
+              <div className="feature-icon"><BookOpen size={28} /></div>
+              <h3>Diverse Skill Sets</h3>
+              <p>From programming to photography, language learning to mathematics, discover a wide range of skills.</p>
             </div>
-            <div className="swap-card">
-              <img src={user3Image} alt="User Image" />
-              <h3>Hiruni Sadupama</h3>
-              <p>"SkillSwap has completely changed the way I approach learning and collaboration."</p>
+            <div className="feature-card">
+              <div className="feature-icon"><ShieldCheck size={28} /></div>
+              <h3>Safe & Secure</h3>
+              <p>Verified university student profiles and a secure messaging system keep your learning environment safe.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials */}
+        <section className="testimonials-section">
+          <div className="section-header">
+            <h2>What Students Say</h2>
+            <p>Real stories from our collaborative community.</p>
+          </div>
+          <div className="testimonials-track">
+            <div className="testimonial-card">
+              <div className="stars"><Star size={16} fill="#F59E0B" color="#F59E0B" /><Star size={16} fill="#F59E0B" color="#F59E0B" /><Star size={16} fill="#F59E0B" color="#F59E0B" /><Star size={16} fill="#F59E0B" color="#F59E0B" /><Star size={16} fill="#F59E0B" color="#F59E0B" /></div>
+              <p className="quote">"I learned Python by teaching Spanish. It's an amazing way to pick up new skills without spending a dime!"</p>
+              <div className="author">- Sarah, CompSci Major</div>
+            </div>
+            <div className="testimonial-card">
+              <div className="stars"><Star size={16} fill="#F59E0B" color="#F59E0B" /><Star size={16} fill="#F59E0B" color="#F59E0B" /><Star size={16} fill="#F59E0B" color="#F59E0B" /><Star size={16} fill="#F59E0B" color="#F59E0B" /><Star size={16} fill="#F59E0B" color="#F59E0B" /></div>
+              <p className="quote">"SkillSwap helped me find an awesome design mentor right here on campus."</p>
+              <div className="author">- John, Marketing Student</div>
+            </div>
+            <div className="testimonial-card">
+              <div className="stars"><Star size={16} fill="#F59E0B" color="#F59E0B" /><Star size={16} fill="#F59E0B" color="#F59E0B" /><Star size={16} fill="#F59E0B" color="#F59E0B" /><Star size={16} fill="#F59E0B" color="#F59E0B" /><Star size={16} fill="#F59E0B" color="#F59E0B" /></div>
+              <p className="quote">"The best platform for peer-to-peer learning. Highly recommend to all students."</p>
+              <div className="author">- Emily, Engineering</div>
             </div>
           </div>
         </section>

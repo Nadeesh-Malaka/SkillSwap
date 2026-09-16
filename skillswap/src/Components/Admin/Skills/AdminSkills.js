@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./AdminSkills.css"; // Include styles for AdminSkills
+import { Search, CheckCircle, XCircle, Trash2 } from "lucide-react";
 
 const AdminSkills = () => {
   const [skills, setSkills] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(""); // For the search input
-  const [loading, setLoading] = useState(false); // Loading state for search results
+  const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // Fetch all skills initially
   const fetchSkills = async () => {
     try {
       setLoading(true);
@@ -15,151 +14,131 @@ const AdminSkills = () => {
       setSkills(response.data.data);
     } catch (error) {
       console.error("Error fetching skills:", error);
-      alert("Failed to fetch skills. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  // Search skills based on a query
-  const searchSkills = async () => {
-    if (!searchQuery.trim()) {
-      alert("Please enter a search query.");
-      return;
-    }
-
-    try {
-      setLoading(true);
-      const response = await axios.get(
-        `http://localhost:5000/api/skills/search/${searchQuery}`
-      );
-      setSkills(response.data.data);
-    } catch (error) {
-      console.error("Error searching skills:", error);
-      alert("Failed to search skills. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Approve a skill
   const handleApprove = async (id) => {
     try {
       await axios.patch(`http://localhost:5000/api/skills/${id}/approve`);
-      alert("Skill approved successfully!");
-      fetchSkills(); // Refresh the list
+      fetchSkills();
     } catch (error) {
       console.error("Error approving skill:", error);
-      alert("Failed to approve skill. Please try again.");
+      alert("Failed to approve skill.");
     }
   };
 
-  // Reject a skill
   const handleReject = async (id) => {
     try {
       await axios.patch(`http://localhost:5000/api/skills/${id}/reject`);
-      alert("Skill rejected successfully!");
-      fetchSkills(); // Refresh the list
+      fetchSkills();
     } catch (error) {
       console.error("Error rejecting skill:", error);
-      alert("Failed to reject skill. Please try again.");
+      alert("Failed to reject skill.");
     }
   };
 
-  // Delete a skill
   const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/api/skills/${id}`);
-      alert("Skill deleted successfully!");
-      fetchSkills(); // Refresh the list
-    } catch (error) {
-      console.error("Error deleting skill:", error);
-      alert("Failed to delete skill. Please try again.");
+    if (window.confirm("Are you sure you want to delete this skill?")) {
+      try {
+        await axios.delete(`http://localhost:5000/api/skills/${id}`);
+        fetchSkills();
+      } catch (error) {
+        console.error("Error deleting skill:", error);
+        alert("Failed to delete skill.");
+      }
     }
   };
 
   useEffect(() => {
-    fetchSkills(); // Load all skills on component mount
+    fetchSkills();
   }, []);
 
+  const filteredSkills = skills.filter((skill) =>
+    skill.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    skill.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <div className="admin-skills-container">
-      <h1>Admin Skills Management</h1>
-      {/* Search Section */}
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search skills by title or category..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button onClick={searchSkills}>Search Skills</button>
+    <div className="admin-section-card">
+      <div className="admin-section-header">
+        <div style={{display: 'flex', alignItems: 'center', gap: 12}}>
+          <div className="admin-search" style={{padding: 0, border: 'none'}}>
+            <div style={{position: 'relative'}}>
+              <Search size={16} color="var(--text-secondary)" style={{position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)'}} />
+              <input 
+                type="text" 
+                placeholder="Search skills by title or category..." 
+                value={searchQuery} 
+                onChange={(e) => setSearchQuery(e.target.value)} 
+                style={{paddingLeft: 34}} 
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Skills Table */}
-      {loading ? (
-        <p>Loading...</p>
-      ) : skills.length === 0 ? (
-        <p>No skills found. Try a different search.</p>
-      ) : (
-        <table className="skills-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Image</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {skills.map((skill) => (
-              <tr key={skill._id}>
-                <td>{skills.indexOf(skill) + 1}</td>
-                <td>
-                  <img
-                    src={`http://localhost:5000/${skill.skill_pic || "images/default_skill.png"}`}
-                    alt={skill.title}
-                    className="skill-image"
-                  />
-                </td>
-                <td>{skill.title}</td>
-                <td>{skill.category}</td>
-                <td>
-                  <span
-                    className={`status ${
-                      skill.isApproved ? "approved" : "not-approved"
-                    }`}
-                  >
-                    {skill.isApproved ? "Approved" : "Pending"}
-                  </span>
-                </td>
-                <td>
-                  <button
-                    className="approve-button"
-                    onClick={() => handleApprove(skill._id)}
-                  >
-                    Approve
-                  </button>
-                  <button
-                    className="reject-button"
-                    onClick={() => handleReject(skill._id)}
-                  >
-                    Reject
-                  </button>
-                  <button
-                    className="delete-button"
-                    onClick={() => handleDelete(skill._id)}
-                  >
-                    Delete
-                  </button>
-                </td>
+      <div style={{overflowX: 'auto'}}>
+        {loading ? (
+          <div style={{padding: 40, textAlign: 'center', color: 'var(--text-secondary)'}}>Loading skills...</div>
+        ) : filteredSkills.length === 0 ? (
+          <div style={{padding: 40, textAlign: 'center', color: 'var(--text-secondary)'}}>No skills found.</div>
+        ) : (
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+            </thead>
+            <tbody>
+              {filteredSkills.map((skill) => (
+                <tr key={skill._id}>
+                  <td>
+                    <img 
+                      src={`http://localhost:5000/${skill.skill_pic || "images/default_skill.png"}`} 
+                      alt={skill.title} 
+                      style={{width: 48, height: 32, borderRadius: 4, objectFit: 'cover', border: '1px solid var(--border)'}}
+                    />
+                  </td>
+                  <td style={{fontWeight: 500}}>{skill.title}</td>
+                  <td style={{textTransform: 'capitalize'}}>{skill.category}</td>
+                  <td>
+                    <span style={{
+                      background: skill.isApproved ? 'var(--success-light)' : 'var(--warning-light)',
+                      color: skill.isApproved ? 'var(--success)' : '#d97706',
+                      padding: '2px 8px', borderRadius: '100px', fontSize: '0.75rem', fontWeight: 600
+                    }}>
+                      {skill.isApproved ? "Approved" : "Pending"}
+                    </span>
+                  </td>
+                  <td>
+                    <div style={{display: 'flex', gap: 8}}>
+                      {!skill.isApproved && (
+                        <button className="btn" style={{padding: '4px 8px', color: 'var(--success)', borderColor: 'var(--success)'}} onClick={() => handleApprove(skill._id)}>
+                          <CheckCircle size={14} />
+                        </button>
+                      )}
+                      {skill.isApproved && (
+                        <button className="btn" style={{padding: '4px 8px', color: '#d97706', borderColor: '#d97706'}} onClick={() => handleReject(skill._id)}>
+                          <XCircle size={14} />
+                        </button>
+                      )}
+                      <button className="btn btn-danger" style={{padding: '4px 8px'}} onClick={() => handleDelete(skill._id)}>
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 };

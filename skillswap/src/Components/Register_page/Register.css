@@ -1,265 +1,200 @@
-/* Reset basic margins and padding */
-body, ul, p, h1, h2, h3, footer {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Header styles */
-  header {
-    background-color: black;
-    padding: 15px 20px;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #fff;
-    letter-spacing: 2px;
-    cursor: pointer;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  .logo span {
-    color: #007BFF;
-  }
-  
-  .nav-links {
-    display: flex;
-    justify-content: flex-end;
-    gap: 25px;
-    font-size: 18px;
-  }
-  
-  .nav-links a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .nav-links a:hover {
-    background-color: #f5f5f6;
-    color: #007BFF;
-    transform: scale(1.1);
-  }
-  
-  .nav-links .highlight {
-    background-color: #007BFF;
-    color: white;
-  }
-  
-  .hamburger-menu {
-    display: none;
-    cursor: pointer;
-    flex-direction: column;
-    gap: 5px;
-    width: 30px;
-    height: 50px;
-  }
-  
-  .hamburger-menu div {
-    width: 30px;
-    height: 5px;
-    background-color: white;
-    border-radius: 5px;
-  }
-  
+/* =============================================
+   REGISTER PAGE
+   ============================================= */
+.register-page {
+  background: var(--bg);
+  min-height: calc(100vh - var(--navbar-height));
+  padding: 40px 24px 60px;
+}
 
-  
-  /* Mobile responsiveness */
-  @media (max-width: 768px) {
-    /* Hide the nav links on mobile */
-    .nav-links {
-      display: none;
-      flex-direction: column;
-      width: 100%;
-      background-color: black;
-      position: absolute;
-      top: 60px;
-      left: 0;
-      padding: 15px 0;
-    }
-  
-    .nav-links.show {
-      display: flex;
-    }
-  
-    .nav-links a {
-      text-align: center;
-      padding: 10px;
-      width: 100%;
-    }
-  
-    .hamburger-menu {
-      display: flex;
-    }
-  
-    /* Registration container padding and responsiveness */
-    .registration-container {
-      padding: 20px;
-      width: 90%;
-    }
-  
-    .form-section {
-      flex-direction: column;
-      gap: 20px;
-    }
-  
-    .form-left,
-    .form-right {
-      flex: 1;
-      width: 100%;
-    }
-  
-    /* Form group spacing and field adjustments for mobile */
-    .form-group {
-      margin-bottom: 15px;
-    }
-  
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      padding: 10px;
-      font-size: 14px;
-    }
-  
-    /* Buttons adjustments */
-    .register-button {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-    }
-  
-    /* "Already have an account? Log in" link adjustments */
-    .login-link {
-      text-align: center;
-      margin-top: 30px;
-    }
-  
-    .login-link a {
-      font-weight: bold;
-      color: #007BFF;
-    }
-  
-    .login-link a:hover {
-      text-decoration: underline;
-    }
-  }
-  
-  /* Additional Registration Form Styles */
-  .registration-container {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    max-width: 1000px;
-    margin: 50px auto;
-  }
-  
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: black;
-    font-weight: bolder;
-    
-    font-size: 30px;
-  }
-  
-  .form-section {
-    display: flex;
-    text-align: center;
-    gap: 50px;
-  }
-  
-  .form-left,
-  .form-right {
-    flex: 1;
-  }
-  
-  .form-group {
-    text-align: center;
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    text-align: center;
-    display: block;
-    font-weight: bold;
-  }
-  
-  .form-group input,
-  .form-group textarea {
-    
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .register-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .register-button:hover {
-    background-color: #2272b3;
-  }
-  
-  a {
-    text-decoration: none;
-    color: #2d0fa8;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
+.register-page-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
 
+.register-page-header h1 { font-size: 1.875rem; margin-bottom: 6px; }
+.register-page-header p { color: var(--text-secondary); }
 
-  .error-message {
-    color: red;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 15px;
-  }
-  
-  .skills-input {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .skills-input input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
-  }
-  
-  .skills-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .skills-list li {
-    background-color: #f0f0f0;
-    margin: 5px 0;
-    padding: 8px;
-    border-radius: 5px;
-  }
-  
-  
+.register-form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  padding: 40px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.register-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 24px;
+}
+
+.register-form-card label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.register-form-card input,
+.register-form-card select,
+.register-form-card textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  background: #fff;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+  font-family: inherit;
+}
+
+.register-form-card input:focus,
+.register-form-card select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 126, 255, 0.12);
+}
+
+.register-form-card input::placeholder { color: #A0AABB; }
+
+.register-section-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 24px 0 12px;
+}
+
+.skills-input-wrapper {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  background: #fff;
+  transition: border-color var(--transition);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  cursor: text;
+}
+
+.skills-input-wrapper:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 126, 255, 0.12);
+}
+
+.skill-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 100px;
+  padding: 3px 10px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.skill-chip button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary);
+  font-size: 0.875rem;
+  line-height: 1;
+  padding: 0;
+  margin-left: 2px;
+  font-weight: 700;
+}
+
+.skill-chip button:hover { color: var(--danger); }
+
+.skills-input-wrapper input {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 2px 0 !important;
+  min-width: 120px;
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.skills-hint {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.register-terms-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 24px 0;
+}
+
+.register-terms-row input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: var(--primary);
+}
+
+.register-terms-row label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.register-terms-row label a { color: var(--primary); }
+
+.register-submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  font-family: inherit;
+  margin-bottom: 12px;
+}
+
+.register-submit-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(79,126,255,0.35);
+}
+
+.auth-error {
+  background: var(--danger-light);
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+
+.register-login-link {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.register-login-link a { color: var(--primary); font-weight: 600; }
+
+@media (max-width: 640px) {
+  .register-form-grid { grid-template-columns: 1fr; gap: 0; }
+  .register-form-card { padding: 24px 20px; }
+}

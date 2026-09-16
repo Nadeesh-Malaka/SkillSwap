@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import "./feedbackForm.css";
 import Nav from "../NavFooter/nav";
 import Footer from "../NavFooter/footer";
+import { Star } from "lucide-react";
 
 const FeedbackForm = () => {
   const [rating, setRating] = useState(0);
@@ -17,20 +18,9 @@ const FeedbackForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!rating || !skillId) {
-      setError("Please provide a rating and ensure a valid skill is selected.");
-      setSuccessMessage("");
-      return;
-    }
-
+    if (!rating || !skillId) { setError("Please provide a rating and ensure a valid skill is selected."); setSuccessMessage(""); return; }
     try {
-      await axios.post("http://localhost:5000/api/feedback", {
-        skillId,
-        userId,
-        rating,
-        comment,
-      });
+      await axios.post("http://localhost:5000/api/feedback", { skillId, userId, rating, comment });
       setSuccessMessage("Feedback submitted successfully!");
       setError("");
       setRating(0);
@@ -48,44 +38,35 @@ const FeedbackForm = () => {
       <main className="feedback-main">
         <div className="feedback-container">
           <h2>Submit Feedback</h2>
+          <p className="feedback-subtitle">Rate your skill exchange experience.</p>
           {error && <div className="error-message">{error}</div>}
-          {successMessage && (
-            <div
-              className="success-message"
-              style={{
-                color: "green",
-                backgroundColor: "#d1e7dd",
-                padding: "10px",
-                border: "1px solid #badbcc",
-                borderRadius: "5px",
-                textAlign: "center",
-              }}
-            >
-              {successMessage}
-            </div>
-          )}
+          {successMessage && <div className="success-message">{successMessage}</div>}
 
           <form onSubmit={handleSubmit} className="feedback-form">
-            <label htmlFor="rating">Rating (1-5):</label>
-            <input
-              type="number"
-              id="rating"
-              value={rating}
-              onChange={(e) => setRating(Number(e.target.value))}
-              min="1"
-              max="5"
-              required
-            />
-            <label htmlFor="comment">Comment (Optional):</label>
+            <label>Your Rating</label>
+            <div className="star-rating">
+              {[1,2,3,4,5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  className={`star-btn ${rating >= star ? "active" : ""}`}
+                  onClick={() => setRating(star)}
+                  aria-label={`${star} star`}
+                >
+                  <Star size={32} fill={rating >= star ? "currentColor" : "none"} strokeWidth={1.5} />
+                </button>
+              ))}
+            </div>
+
+            <label htmlFor="comment">Comment (Optional)</label>
             <textarea
               id="comment"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              placeholder="Write your feedback here..."
+              placeholder="Share your experience about this skill exchange..."
             ></textarea>
-            <button type="submit" className="submit-btn">
-              Submit Feedback
-            </button>
+
+            <button type="submit" className="submit-btn">Submit Feedback</button>
           </form>
         </div>
       </main>

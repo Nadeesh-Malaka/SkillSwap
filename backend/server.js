@@ -1,4 +1,4 @@
-global.SlowBuffer = Buffer;
+﻿global.SlowBuffer = Buffer;
 require('buffer').SlowBuffer = Buffer;
 const express = require("express");
 const mongoose = require("mongoose");
@@ -15,7 +15,6 @@ const skillReqRoutes = require("./Routes/SkillReqRoutes");
 const chatRoutes = require("./Routes/ChatRoutes"); 
 const contactRoutes = require("./Routes/ContactRoutes");
 const feedbackRoutes = require("./Routes/FeedbackRoutes"); 
-
 
 const app = express();
 const server = http.createServer(app); // Create server instance for Socket.io
@@ -51,7 +50,6 @@ app.use("/api/feedback", feedbackRoutes);
 
 
 // Test route
-
 app.get("/api/test", (req, res) => {
   res.json({ message: "API is working" });
 });
@@ -68,10 +66,20 @@ io.on("connection", (socket) => {
   });
 
   // Listen for messages and broadcast to the room
-  socket.on("sendMessage", ({ skillId, userId, text }) => {
-    const room = `${skillId}_${userId}`;
-    const message = { userId, text, createdAt: new Date() };
-    io.to(room).emit("message", message); // Broadcast message to the room
+  socket.on("sendMessage", (messageData) => {
+    // messageData contains: skillId, senderId, receiverId, message, senderName
+    const room = `${messageData.skillId}_${messageData.roomUserId}`; 
+    // Wait, the backend needs to know WHICH room to broadcast to. 
+    // The room name is based on the URL userId! We must ensure frontend passes it.
+    
+    const broadcastMsg = { 
+      senderId: messageData.senderId,
+      senderName: messageData.senderName || "User",
+      message: messageData.message, 
+      createdAt: new Date() 
+    };
+    
+    io.to(room).emit("message", broadcastMsg);
   });
 
   // Handle user disconnect
