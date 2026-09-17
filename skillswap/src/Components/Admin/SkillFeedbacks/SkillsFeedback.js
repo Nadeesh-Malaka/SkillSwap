@@ -2,6 +2,7 @@
 import axios from "axios";
 import { Search, Trash2, Star } from "lucide-react";
 
+import { API_BASE_URL } from "../../../config";
 const SkillsFeedback = () => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,7 +10,7 @@ const SkillsFeedback = () => {
 
   const fetchFeedbacks = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/feedback/");
+      const response = await axios.get(`${API_BASE_URL}/api/feedback/`);
       setFeedbacks(response.data.data);
     } catch (error) {
       console.error("Error fetching feedbacks:", error);
@@ -21,7 +22,7 @@ const SkillsFeedback = () => {
 
   const deleteFeedback = async (feedbackId) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/api/feedback/${feedbackId}`);
+      const response = await axios.delete(`${API_BASE_URL}/api/feedback/${feedbackId}`);
       if (response.data.success) {
         setFeedbacks((prev) => prev.filter((fb) => fb._id !== feedbackId));
       } else {
@@ -102,3 +103,7 @@ const SkillsFeedback = () => {
 };
 
 export default SkillsFeedback;
+
+
+
+

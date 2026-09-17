@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import './Register.css';
 import Nav from "../NavFooter/nav";
 import Footer from "../NavFooter/footer";
@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { X } from 'lucide-react';
 
+import { API_BASE_URL } from "../../config";
 const Register = () => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -49,7 +50,7 @@ const Register = () => {
     const userData = { fullName, email, password, contact_Num: contactNumber, uni_Name: university, sk_Teach: teachSkills, sk_Learn: learnSkills };
 
     try {
-      const response = await axios.post('http://localhost:5000/api/users/register', userData);
+      const response = await axios.post(`${API_BASE_URL}/api/users/register`, userData);
       if (response.data) { alert('Registration successful! Redirecting to login page...'); navigate('/login'); }
     } catch (error) {
       setErrorMessage(error.response?.data?.message || 'An error occurred during registration. Please try again.');
@@ -144,3 +145,7 @@ const Register = () => {
 };
 
 export default Register;
+
+
+
+

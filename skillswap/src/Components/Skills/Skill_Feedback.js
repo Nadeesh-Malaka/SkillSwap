@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";import { API_BASE_URL } from "../../config";
+
 import axios from "axios";
 import "./Skill_Feedback.css";
 
@@ -19,7 +20,7 @@ function Skill_Feedback() {
 
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/skills?userId=${userId}`
+        `${API_BASE_URL}/api/skills?userId=${userId}`
       );
       setSkills(response.data.data.filter((skill) => skill.userId === userId));
     } catch (error) {
@@ -34,7 +35,7 @@ function Skill_Feedback() {
   const fetchFeedbacks = async (skillId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/feedback/${skillId}`
+        `${API_BASE_URL}/api/feedback/${skillId}`
       );
       setFeedbacks((prev) => ({
         ...prev,
@@ -49,7 +50,7 @@ function Skill_Feedback() {
   const deleteFeedback = async (feedbackId, skillId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/feedback/${feedbackId}`
+        `${API_BASE_URL}/api/feedback/${feedbackId}`
       );
       if (response.data.success) {
         alert("Feedback deleted successfully!");
@@ -106,7 +107,7 @@ function Skill_Feedback() {
                       <td>
                         {skill.skill_pic && (
                           <img
-                            src={`http://localhost:5000/${skill.skill_pic}`}
+                            src={`${API_BASE_URL}/${skill.skill_pic}`}
                             alt="Skill"
                             className="skill-image"
                           />
@@ -133,3 +134,6 @@ function Skill_Feedback() {
 }
 
 export default Skill_Feedback;
+
+
+

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+﻿import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 import axios from "axios";
@@ -7,6 +7,7 @@ import Nav from "../NavFooter/nav";
 import Footer from "../NavFooter/footer";
 import { MessageCircle, User } from "lucide-react";
 
+import { API_BASE_URL } from "../../config";
 const Chat = () => {
   const { skillId, userId } = useParams(); // userId is the URL param (student/initator ID)
   const [messages, setMessages] = useState([]);
@@ -38,7 +39,7 @@ const Chat = () => {
         setCurrentUserId(decoded.id);
         
         // Fetch current user details to get fullName
-        axios.get(`http://localhost:5000/api/users/${decoded.id}`)
+        axios.get(`${API_BASE_URL}/api/users/${decoded.id}`)
           .then(res => {
             setCurrentUserName(res.data.fullName || "User");
           })
@@ -53,11 +54,11 @@ const Chat = () => {
 
     const fetchChatDetails = async () => {
       try {
-        const skillResponse = await axios.get(`http://localhost:5000/api/skills/${skillId}`);
+        const skillResponse = await axios.get(`${API_BASE_URL}/api/skills/${skillId}`);
         const skillOwnerId = skillResponse.data.userId;
         setReceiverId(skillOwnerId);
         setSkillTitle(skillResponse.data.title || "Skill Chat");
-        const messagesResponse = await axios.get(`http://localhost:5000/api/chat/${skillId}/${userId}`);
+        const messagesResponse = await axios.get(`${API_BASE_URL}/api/chat/${skillId}/${userId}`);
         setMessages(messagesResponse.data.messages);
       } catch (err) {
         console.error("Error fetching chat details:", err);
@@ -68,7 +69,7 @@ const Chat = () => {
   }, [skillId, userId]);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:5000");
+    const newSocket = io(API_BASE_URL);
     setSocket(newSocket);
     // Join room using the URL userId so both users join the exact same room
     newSocket.emit("joinRoom", { skillId, userId });
@@ -96,7 +97,7 @@ const Chat = () => {
     };
 
     try {
-      await axios.post("http://localhost:5000/api/chat/send", apiMessage);
+      await axios.post(`${API_BASE_URL}/api/chat/send`, apiMessage);
       socket.emit("sendMessage", socketMessage);
       
       // We don't need to manually push to state because the socket event 
@@ -174,3 +175,7 @@ const Chat = () => {
 };
 
 export default Chat;
+
+
+
+

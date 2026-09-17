@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AdminNav from "./AdminNav";
 import "./styles.css";
 
+import { API_BASE_URL } from "../../config";
 const AdminUser = () => {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -10,7 +11,7 @@ const AdminUser = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/users");
+        const response = await axios.get(`${API_BASE_URL}/api/users`);
         setUsers(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -22,7 +23,7 @@ const AdminUser = () => {
   const handleDeleteUser = async (id) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/users/${id}`);
+        await axios.delete(`${API_BASE_URL}/api/users/${id}`);
         setUsers(users.filter((user) => user._id !== id));
         alert("User deleted successfully!");
       } catch (error) {
@@ -73,7 +74,7 @@ const AdminUser = () => {
                     <tr key={user._id}>
                       <td>
                         <img 
-                          src={user.profile_pic ? (user.profile_pic.startsWith('data:') ? user.profile_pic : `http://localhost:5000/${user.profile_pic}`) : "https://via.placeholder.com/40"} 
+                          src={user.profile_pic ? (user.profile_pic.startsWith('data:') ? user.profile_pic : `${API_BASE_URL}/${user.profile_pic}`) : "https://via.placeholder.com/40"} 
                           alt="Profile" 
                           style={{width: 32, height: 32, borderRadius: '50%', objectFit: 'cover'}}
                         />
@@ -105,3 +106,7 @@ const AdminUser = () => {
 };
 
 export default AdminUser;
+
+
+
+

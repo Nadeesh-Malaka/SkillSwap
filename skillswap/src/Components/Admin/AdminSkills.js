@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AdminNav from "./AdminNav";
 import "./styles.css";
 
+import { API_BASE_URL } from "../../config";
 const AdminSkills = () => {
   const [skills, setSkills] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -10,12 +11,12 @@ const AdminSkills = () => {
   useEffect(() => {
     const fetchSkills = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/skills");
+        const response = await axios.get(`${API_BASE_URL}/api/skills`);
         const skillsData = response.data.data;
         const skillsWithUserDetails = await Promise.all(
           skillsData.map(async (skill) => {
             try {
-              const userResponse = await axios.get(`http://localhost:5000/api/users/${skill.userId}`);
+              const userResponse = await axios.get(`${API_BASE_URL}/api/users/${skill.userId}`);
               return { ...skill, userName: userResponse.data.fullName };
             } catch (error) {
               return { ...skill, userName: "Unknown User" };
@@ -33,7 +34,7 @@ const AdminSkills = () => {
   const handleDeleteSkill = async (id) => {
     if (window.confirm("Are you sure you want to delete this skill?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/skills/${id}`);
+        await axios.delete(`${API_BASE_URL}/api/skills/${id}`);
         setSkills(skills.filter((skill) => skill._id !== id));
         alert("Skill deleted successfully!");
       } catch (error) {
@@ -83,7 +84,7 @@ const AdminSkills = () => {
                     <tr key={skill._id}>
                       <td>
                         <img 
-                          src={`http://localhost:5000/${skill.skill_pic}`} 
+                          src={`${API_BASE_URL}/${skill.skill_pic}`} 
                           alt="Skill" 
                           style={{width: 48, height: 32, borderRadius: 4, objectFit: 'cover', border: '1px solid var(--border)'}}
                         />
@@ -117,3 +118,7 @@ const AdminSkills = () => {
 };
 
 export default AdminSkills;
+
+
+
+

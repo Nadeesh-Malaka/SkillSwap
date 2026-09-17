@@ -2,6 +2,7 @@
 import axios from "axios";
 import { Search, Trash2 } from "lucide-react";
 
+import { API_BASE_URL } from "../../../config";
 const AdminChat = () => {
   const [chats, setChats] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -10,7 +11,7 @@ const AdminChat = () => {
   const fetchChats = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5000/api/chat/all");
+      const response = await axios.get(`${API_BASE_URL}/api/chat/all`);
       setChats(response.data.chats);
     } catch (error) {
       console.error("Error fetching chats:", error);
@@ -23,7 +24,7 @@ const AdminChat = () => {
   const handleDelete = async (chatId) => {
     if (window.confirm("Are you sure you want to delete this chat message?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/chat/${chatId}`);
+        await axios.delete(`${API_BASE_URL}/api/chat/${chatId}`);
         fetchChats();
       } catch (error) {
         console.error("Error deleting chat:", error);
@@ -79,7 +80,7 @@ const AdminChat = () => {
                 <tr key={chat._id}>
                   <td>
                     <img
-                      src={`http://localhost:5000/${chat.skillImage}`}
+                      src={`${API_BASE_URL}/${chat.skillImage}`}
                       alt="Skill"
                       style={{width: 48, height: 32, borderRadius: 4, objectFit: 'cover', border: '1px solid var(--border)'}}
                     />
@@ -102,3 +103,7 @@ const AdminChat = () => {
 };
 
 export default AdminChat;
+
+
+
+

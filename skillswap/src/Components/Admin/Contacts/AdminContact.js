@@ -2,6 +2,7 @@
 import axios from "axios";
 import { Search, Reply, Trash2 } from "lucide-react";
 
+import { API_BASE_URL } from "../../../config";
 const AdminContact = () => {
   const [contacts, setContacts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -10,7 +11,7 @@ const AdminContact = () => {
   const fetchContacts = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5000/api/contact");
+      const response = await axios.get(`${API_BASE_URL}/api/contact`);
       setContacts(response.data.data);
     } catch (error) {
       console.error("Error fetching contact messages:", error);
@@ -22,7 +23,7 @@ const AdminContact = () => {
   const deleteContact = async (id) => {
     if (!window.confirm("Are you sure you want to delete this message?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/contact/${id}`);
+      await axios.delete(`${API_BASE_URL}/api/contact/${id}`);
       fetchContacts();
     } catch (error) {
       console.error("Error deleting contact message:", error);
@@ -105,3 +106,7 @@ const AdminContact = () => {
 };
 
 export default AdminContact;
+
+
+
+

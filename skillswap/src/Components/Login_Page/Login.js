@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import Nav from "../NavFooter/nav";
 import Footer from "../NavFooter/footer";
 import './Login.css';
@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
+import { API_BASE_URL } from "../../config";
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,7 +17,7 @@ const LoginPage = () => {
     event.preventDefault();
     if (!email || !password) { setErrorMessage("Please fill in both fields."); return; }
     try {
-      const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
+      const response = await axios.post(`${API_BASE_URL}/api/users/login`, { email, password });
       if (response.status === 200) {
         const { token } = response.data;
         const decodedToken = jwtDecode(token);
@@ -71,3 +72,7 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+
+
+

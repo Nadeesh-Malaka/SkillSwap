@@ -6,6 +6,7 @@ import Nav from "../NavFooter/nav";
 import Footer from "../NavFooter/footer";
 import { Camera } from "lucide-react";
 
+import { API_BASE_URL } from "../../config";
 function Profile() {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -19,7 +20,7 @@ function Profile() {
       try {
         const userId = localStorage.getItem("userId");
         if (!userId) { setError("User ID not found. Please log in."); setLoading(false); return; }
-        const response = await axios.get(`http://localhost:5000/api/users/${userId}`);
+        const response = await axios.get(`${API_BASE_URL}/api/users/${userId}`);
         const user = response.data;
         setUserData({ ...user, profile_pic: user.profile_pic || userImage, skillsTeach: user.sk_Teach || [], skillsLearn: user.sk_Learn || [] });
       } catch (err) {
@@ -58,7 +59,7 @@ function Profile() {
     try {
       const userId = localStorage.getItem("userId");
       if (!userId) { setError("User ID not found. Please log in."); return; }
-      await axios.put(`http://localhost:5000/api/users/${userId}`, {
+      await axios.put(`${API_BASE_URL}/api/users/${userId}`, {
         fullName: userData.fullName, contact_Num: userData.contact_Num,
         uni_Name: userData.uni_Name, bio: userData.bio,
         sk_Learn: userData.skillsLearn, sk_Teach: userData.skillsTeach,
@@ -66,7 +67,7 @@ function Profile() {
       if (profilePicFile) {
         const formData = new FormData();
         formData.append("profile_pic", profilePicFile);
-        await axios.put(`http://localhost:5000/api/users/${userId}/profile-pic`, formData, { headers: { "Content-Type": "multipart/form-data" } });
+        await axios.put(`${API_BASE_URL}/api/users/${userId}/profile-pic`, formData, { headers: { "Content-Type": "multipart/form-data" } });
       }
       alert("Profile updated successfully!");
       window.location.reload();
@@ -81,7 +82,7 @@ function Profile() {
 
   const picSrc = userData.profile_pic && userData.profile_pic.startsWith('data:')
     ? userData.profile_pic
-    : `http://localhost:5000/${userData.profile_pic}`;
+    : `${API_BASE_URL}/${userData.profile_pic}`;
 
   return (
     <div>
@@ -177,3 +178,5 @@ function Profile() {
 }
 
 export default Profile;
+
+

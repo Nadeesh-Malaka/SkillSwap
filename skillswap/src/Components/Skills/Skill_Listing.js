@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./style.css";
 import Nav from "../NavFooter/nav";
@@ -6,6 +6,7 @@ import Footer from "../NavFooter/footer";
 import Skill_Feedback from "./Skill_Feedback";
 import { Edit2, Plus, Paperclip, Check } from "lucide-react";
 
+import { API_BASE_URL } from "../../config";
 function SkillListing() {
   const [formData, setFormData] = useState({ skillTitle: "", category: "technology", description: "", file: null });
   const [skills, setSkills] = useState([]);
@@ -17,7 +18,7 @@ function SkillListing() {
     const userId = localStorage.getItem("userId");
     if (!userId) { alert("User not logged in. Please log in to view your skills."); setLoading(false); return; }
     try {
-      const response = await axios.get(`http://localhost:5000/api/skills?userId=${userId}`);
+      const response = await axios.get(`${API_BASE_URL}/api/skills?userId=${userId}`);
       let userSkills = response.data.data.filter((skill) => skill.userId === userId);
       
       try {
@@ -25,7 +26,7 @@ function SkillListing() {
         userSkills = await Promise.all(userSkills.map(async (skill) => {
           if (skill.isRequest) {
             try {
-              const reqResponse = await axios.get(`http://localhost:5000/api/requests/skill/${skill._id}`);
+              const reqResponse = await axios.get(`${API_BASE_URL}/api/requests/skill/${skill._id}`);
               const requests = reqResponse.data.requests || [];
               if (requests.length > 0) {
                 // If any request is accepted, use it. Otherwise just use the first request's data.
@@ -78,7 +79,7 @@ function SkillListing() {
     data.append("userId", userId);
     if (formData.file) data.append("skill_pic", formData.file);
     try {
-      const url = editingSkill ? `http://localhost:5000/api/skills/${editingSkill._id}` : "http://localhost:5000/api/skills";
+      const url = editingSkill ? `${API_BASE_URL}/api/skills/${editingSkill._id}` : `${API_BASE_URL}/api/skills`;
       const method = editingSkill ? "put" : "post";
       await axios[method](url, data, { headers: { "Content-Type": "multipart/form-data" } });
       alert(editingSkill ? "Skill updated successfully!" : "Skill added successfully!");
@@ -94,7 +95,7 @@ function SkillListing() {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this skill?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/skills/${id}`);
+        await axios.delete(`${API_BASE_URL}/api/skills/${id}`);
         alert("Skill deleted successfully!");
         fetchSkills();
       } catch (error) {
@@ -112,10 +113,10 @@ function SkillListing() {
 
   const approveRequest = async (skillId) => {
     try {
-      const skillReqResponse = await axios.get(`http://localhost:5000/api/requests/skill/${skillId}`);
+      const skillReqResponse = await axios.get(`${API_BASE_URL}/api/requests/skill/${skillId}`);
       const skillRequest = skillReqResponse.data.requests[0];
       if (!skillRequest || !skillRequest._id) { alert("Skill request not found!"); return; }
-      const response = await axios.patch("http://localhost:5000/api/requests/status", { requestId: skillRequest._id, isAccepted: true });
+      const response = await axios.patch(`${API_BASE_URL}/api/requests/status`, { requestId: skillRequest._id, isAccepted: true });
       if (response.data.success) {
         setSkills((prev) => prev.map((skill) => skill._id === skillId ? { ...skill, isRequestAccepted: true, chatURL: skillRequest.chatURL } : skill));
         alert("Request approved successfully!");
@@ -212,7 +213,7 @@ function SkillListing() {
                         <td><div className="skill-table-desc">{skill.description}</div></td>
                         <td>
                           {skill.skill_pic && (
-                            <img src={`http://localhost:5000/${skill.skill_pic}`} alt="Skill" className="skill-image" />
+                            <img src={`${API_BASE_URL}/${skill.skill_pic}`} alt="Skill" className="skill-image" />
                           )}
                         </td>
                         <td>
@@ -256,3 +257,7 @@ function SkillListing() {
 }
 
 export default SkillListing;
+
+
+
+
