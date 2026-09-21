@@ -6,6 +6,7 @@ import Nav from "../NavFooter/nav";
 import Footer from "../NavFooter/footer";
 import { Star } from "lucide-react";
 
+import { API_BASE_URL } from "../../config";
 const FeedbackForm = () => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -20,7 +21,7 @@ const FeedbackForm = () => {
     e.preventDefault();
     if (!rating || !skillId) { setError("Please provide a rating and ensure a valid skill is selected."); setSuccessMessage(""); return; }
     try {
-      await axios.post("http://localhost:5000/api/feedback", { skillId, userId, rating, comment });
+      await axios.post(`${API_BASE_URL}/api/feedback`, { skillId, userId, rating, comment });
       setSuccessMessage("Feedback submitted successfully!");
       setError("");
       setRating(0);
@@ -76,3 +77,7 @@ const FeedbackForm = () => {
 };
 
 export default FeedbackForm;
+
+
+
+

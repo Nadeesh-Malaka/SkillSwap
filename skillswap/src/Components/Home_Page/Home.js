@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./style.css";
 import Nav from "../NavFooter/nav";
 import Footer from "../NavFooter/footer";
 import { Search } from "lucide-react";
 
+import { API_BASE_URL } from "../../config";
 function Home() {
   const [skills, setSkills] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,14 +14,14 @@ function Home() {
 
   const fetchSkills = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/skills");
+      const response = await axios.get(`${API_BASE_URL}/api/skills`);
       const skillsData = response.data.data;
       const approvedSkills = skillsData.filter((skill) => skill.isApproved);
 
       const skillsWithUserDetails = await Promise.all(
         approvedSkills.map(async (skill) => {
           try {
-            const userResponse = await axios.get(`http://localhost:5000/api/users/${skill.userId}`);
+            const userResponse = await axios.get(`${API_BASE_URL}/api/users/${skill.userId}`);
             return { ...skill, userName: userResponse.data.fullName };
           } catch (error) {
             return { ...skill, userName: "Unknown User" };
@@ -28,7 +29,7 @@ function Home() {
         })
       );
 
-      const requestResponse = await axios.get(`http://localhost:5000/api/requests/${userId}`);
+      const requestResponse = await axios.get(`${API_BASE_URL}/api/requests/${userId}`);
       const requests = requestResponse.data.requests;
 
       const updatedSkills = skillsWithUserDetails.map((skill) => {
@@ -50,8 +51,8 @@ function Home() {
   const handleRequestClick = async (skill) => {
     try {
       const chatURL = `/chat/${skill._id}/${userId}`;
-      const requestResponse = await axios.post("http://localhost:5000/api/requests", { skillId: skill._id, userId, chatURL });
-      await axios.put(`http://localhost:5000/api/skills/${skill._id}`, { isRequest: true });
+      const requestResponse = await axios.post(`${API_BASE_URL}/api/requests`, { skillId: skill._id, userId, chatURL });
+      await axios.put(`${API_BASE_URL}/api/skills/${skill._id}`, { isRequest: true });
       setSkills((prevSkills) => prevSkills.map((s) => s._id === skill._id ? { ...s, isRequested: true } : s));
       alert(requestResponse.data.message);
     } catch (error) {
@@ -119,7 +120,7 @@ function Home() {
           <div className="skills-grid">
             {filteredSkills.map((skill) => (
               <div className="skill-card" key={skill._id}>
-                <img src={`http://localhost:5000/${skill.skill_pic}`} alt={skill.title} className="skill-card-image" />
+                <img src={`${API_BASE_URL}/${skill.skill_pic}`} alt={skill.title} className="skill-card-image" />
                 <div className="skill-card-body">
                   <div className="skill-card-user">
                     <div className="skill-card-avatar">{(skill.userName || 'U')[0].toUpperCase()}</div>
@@ -156,3 +157,7 @@ function Home() {
 }
 
 export default Home;
+
+
+
+

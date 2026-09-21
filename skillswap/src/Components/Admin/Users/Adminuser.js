@@ -2,6 +2,7 @@
 import axios from "axios";
 import { Search, Plus, Edit2, Trash2 } from "lucide-react";
 
+import { API_BASE_URL } from "../../../config";
 const Adminuser = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
@@ -23,7 +24,7 @@ const Adminuser = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/users");
+      const response = await axios.get(`${API_BASE_URL}/api/users`);
       setUsers(response.data);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -34,7 +35,7 @@ const Adminuser = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/users/${id}`);
+        await axios.delete(`${API_BASE_URL}/api/users/${id}`);
         setUsers(users.filter((user) => user._id !== id));
       } catch (error) {
         console.error("Error deleting user:", error);
@@ -53,11 +54,11 @@ const Adminuser = () => {
           uni_Name: formState.university,
           bio: formState.bio,
         };
-        await axios.put(`http://localhost:5000/api/users/${formState.id}`, updatedUser);
+        await axios.put(`${API_BASE_URL}/api/users/${formState.id}`, updatedUser);
         if (formState.profilePic) {
           const formData = new FormData();
           formData.append("profile_pic", formState.profilePic);
-          await axios.put(`http://localhost:5000/api/users/${formState.id}/profile-pic`, formData, { headers: { "Content-Type": "multipart/form-data" } });
+          await axios.put(`${API_BASE_URL}/api/users/${formState.id}/profile-pic`, formData, { headers: { "Content-Type": "multipart/form-data" } });
         }
       } else {
         const newUser = {
@@ -68,11 +69,11 @@ const Adminuser = () => {
           uni_Name: formState.university,
           bio: formState.bio,
         };
-        const response = await axios.post("http://localhost:5000/api/users/register", newUser);
+        const response = await axios.post(`${API_BASE_URL}/api/users/register`, newUser);
         if (formState.profilePic) {
           const formData = new FormData();
           formData.append("profile_pic", formState.profilePic);
-          await axios.put(`http://localhost:5000/api/users/${response.data.user._id}/profile-pic`, formData, { headers: { "Content-Type": "multipart/form-data" } });
+          await axios.put(`${API_BASE_URL}/api/users/${response.data.user._id}/profile-pic`, formData, { headers: { "Content-Type": "multipart/form-data" } });
         }
       }
       fetchUsers();
@@ -95,7 +96,7 @@ const Adminuser = () => {
       university: user.uni_Name,
       bio: user.bio,
     });
-    setPreviewImage(`http://localhost:5000/${user.profile_pic}`);
+    setPreviewImage(`${API_BASE_URL}/${user.profile_pic}`);
     setShowForm(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -194,7 +195,7 @@ const Adminuser = () => {
                 <tr key={user._id}>
                   <td>
                     <img 
-                      src={user.profile_pic ? (user.profile_pic.startsWith('data:') ? user.profile_pic : `http://localhost:5000/${user.profile_pic}`) : "https://via.placeholder.com/40"} 
+                      src={user.profile_pic ? (user.profile_pic.startsWith('data:') ? user.profile_pic : `${API_BASE_URL}/${user.profile_pic}`) : "https://via.placeholder.com/40"} 
                       alt="Profile" 
                       style={{width: 32, height: 32, borderRadius: '50%', objectFit: 'cover', border: '1px solid var(--border)'}}
                     />
@@ -231,3 +232,7 @@ const Adminuser = () => {
 };
 
 export default Adminuser;
+
+
+
+

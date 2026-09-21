@@ -1,4 +1,4 @@
-﻿global.SlowBuffer = Buffer;
+global.SlowBuffer = Buffer;
 require('buffer').SlowBuffer = Buffer;
 const express = require("express");
 const mongoose = require("mongoose");
@@ -20,7 +20,7 @@ const app = express();
 const server = http.createServer(app); // Create server instance for Socket.io
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:3000", // Replace with your frontend's URL if necessary
+    origin: process.env.CLIENT_URL || "http://localhost:3000", // Dynamically allow frontend URL or fallback to localhost
     methods: ["GET", "POST"],
   },
 });

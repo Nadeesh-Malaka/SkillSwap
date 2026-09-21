@@ -2,6 +2,7 @@
 import axios from "axios";
 import { Search, CheckCircle, XCircle, Trash2 } from "lucide-react";
 
+import { API_BASE_URL } from "../../../config";
 const AdminSkills = () => {
   const [skills, setSkills] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -10,7 +11,7 @@ const AdminSkills = () => {
   const fetchSkills = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5000/api/skills");
+      const response = await axios.get(`${API_BASE_URL}/api/skills`);
       setSkills(response.data.data);
     } catch (error) {
       console.error("Error fetching skills:", error);
@@ -21,7 +22,7 @@ const AdminSkills = () => {
 
   const handleApprove = async (id) => {
     try {
-      await axios.patch(`http://localhost:5000/api/skills/${id}/approve`);
+      await axios.patch(`${API_BASE_URL}/api/skills/${id}/approve`);
       fetchSkills();
     } catch (error) {
       console.error("Error approving skill:", error);
@@ -31,7 +32,7 @@ const AdminSkills = () => {
 
   const handleReject = async (id) => {
     try {
-      await axios.patch(`http://localhost:5000/api/skills/${id}/reject`);
+      await axios.patch(`${API_BASE_URL}/api/skills/${id}/reject`);
       fetchSkills();
     } catch (error) {
       console.error("Error rejecting skill:", error);
@@ -42,7 +43,7 @@ const AdminSkills = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this skill?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/skills/${id}`);
+        await axios.delete(`${API_BASE_URL}/api/skills/${id}`);
         fetchSkills();
       } catch (error) {
         console.error("Error deleting skill:", error);
@@ -100,7 +101,7 @@ const AdminSkills = () => {
                 <tr key={skill._id}>
                   <td>
                     <img 
-                      src={`http://localhost:5000/${skill.skill_pic || "images/default_skill.png"}`} 
+                      src={`${API_BASE_URL}/${skill.skill_pic || "images/default_skill.png"}`} 
                       alt={skill.title} 
                       style={{width: 48, height: 32, borderRadius: 4, objectFit: 'cover', border: '1px solid var(--border)'}}
                     />
@@ -144,3 +145,7 @@ const AdminSkills = () => {
 };
 
 export default AdminSkills;
+
+
+
+

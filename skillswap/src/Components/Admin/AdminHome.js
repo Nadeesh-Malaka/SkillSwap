@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AdminNav from "./AdminNav";
 import "./styles.css";
 
+import { API_BASE_URL } from "../../config";
 const AdminHome = () => {
   const [counts, setCounts] = useState({ users: 0, skills: 0, requestedSkills: 0 });
 
   useEffect(() => {
     const fetchCounts = async () => {
       try {
-        const usersRes = await axios.get("http://localhost:5000/api/users");
-        const skillsRes = await axios.get("http://localhost:5000/api/skills");
+        const usersRes = await axios.get(`${API_BASE_URL}/api/users`);
+        const skillsRes = await axios.get(`${API_BASE_URL}/api/skills`);
         const users = usersRes.data.length || 0;
         const skillsData = skillsRes.data.data || [];
         const skillsCount = skillsData.length;
@@ -69,3 +70,7 @@ const AdminHome = () => {
 };
 
 export default AdminHome;
+
+
+
+

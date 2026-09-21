@@ -5,6 +5,7 @@ import Footer from "../NavFooter/footer";
 import "./ContactUs.css";
 import { Mail, Phone, Briefcase } from "lucide-react";
 
+import { API_BASE_URL } from "../../config";
 const ContactUs = () => {
   const [confirmationMessage, setConfirmationMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -15,7 +16,7 @@ const ContactUs = () => {
     const email = e.target.email.value;
     const message = e.target.message.value;
     try {
-      const response = await axios.post("http://localhost:5000/api/contact", { name, email, message });
+      const response = await axios.post(`${API_BASE_URL}/api/contact`, { name, email, message });
       if (response.data.success) {
         setConfirmationMessage("Thank you for your feedback! We'\''ll get back to you soon.");
         setErrorMessage("");
@@ -92,3 +93,7 @@ const ContactUs = () => {
 };
 
 export default ContactUs;
+
+
+
+
